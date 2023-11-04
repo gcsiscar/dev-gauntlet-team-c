@@ -6,9 +6,8 @@ style custom_main_menu_text:
     xcenter 0.5
 
 style custom_button_text:
-    background "#fde3fb"
+    background "#fde3fc"
     padding (0,20,0,10)
     xminimum 540
-#efb8dd
 
     
