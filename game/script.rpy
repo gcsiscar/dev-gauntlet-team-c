@@ -1,11 +1,17 @@
-﻿define s = Character('Sylvie', color="#c8ffc8")
+﻿define s = Character('SYLVIE', color="#eaaad3")
 define m = Character('Me', color="#c8c8ff")
 
 default book = False
 
+screen back_button():
+    imagebutton:
+        align (0.0, 0.0)
+        idle "gui/button/back_idle.png" action MainMenu()
+
 label start:
 
-    scene bg meadow
+    scene default_background
+    show screen back_button
     with fade
 
     "After a short while, we reach the meadows just outside the neighborhood where we both live."
@@ -16,7 +22,9 @@ label start:
 
     m "Hey... Umm..."
 
-    show sylvie green smile at right
+    show sylvie green smile:
+        xalign 0.8
+
     with dissolve
 
     "She turns to me and smiles. She looks so welcoming that I feel my nervousness melt away."
@@ -27,15 +35,14 @@ label start:
 
     m "Will you be my artist for a visual novel?"
 
-    s "Sure, but what's a \"visual novel?\""
+    menu:
+        s "Sure, but what's a \"visual novel?\""
+        "It's a videogame.":
+            jump game
 
-menu:
+        "It's an interactive book.":
+            jump book
 
-    "It's a videogame.":
-        jump game
-
-    "It's an interactive book.":
-        jump book
 
 label game:
 
