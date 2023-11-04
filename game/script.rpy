@@ -16,7 +16,9 @@ label start:
 
     m "Hey... Umm..."
 
-    show sylvie green smile at right
+    show sylvie green smile:
+        xalign 0.8
+
     with dissolve
 
     "She turns to me and smiles. She looks so welcoming that I feel my nervousness melt away."
@@ -27,15 +29,14 @@ label start:
 
     m "Will you be my artist for a visual novel?"
 
-    s "Sure, but what's a \"visual novel?\""
+    menu:
+        s "Sure, but what's a \"visual novel?\""
+        "It's a videogame.":
+            jump game
 
-menu:
+        "It's an interactive book.":
+            jump book
 
-    "It's a videogame.":
-        jump game
-
-    "It's an interactive book.":
-        jump book
 
 label game:
 
