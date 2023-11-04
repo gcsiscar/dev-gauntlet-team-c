@@ -1,4 +1,4 @@
-﻿define s = Character('Sylvie', color="#c8ffc8")
+﻿define s = Character('SYLVIE', color="#eaaad3")
 define m = Character('Me', color="#c8c8ff")
 
 default book = False
