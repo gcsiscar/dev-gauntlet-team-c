@@ -285,30 +285,48 @@ style quick_button_text:
 ## This screen is included in the main and game menus, and provides navigation
 ## to other menus, and to start the game.
 
+style custom_main_menu_title:
+    font "fonts/BoldFont.ttf"
+    outlines [ (absolute(8), "#fff", absolute(0), absolute(0)) ]
+    color "#ebaad4"
 
 screen navigation():
+
+    $ mm = renpy.get_screen("main_menu")
+
+    if mm:
+        text """BE CAREFUL WITH 
+        MY HEART!""" style "custom_main_menu_title"  at transform:
+            align (0.5, 0.45)
 
     vbox:
         style_prefix "navigation"
 
-        xcenter 0.5
-        yalign 0.8
-
         spacing gui.navigation_spacing
 
-        if main_menu:
+        if mm:
+            xcenter 0.5
+            yalign 0.78
             textbutton _("NEW GAME") action Start() style "custom_button_text" text_style "custom_main_menu_text"
-            # textbutton _("Start")  action Start()
 
+            textbutton _("LOAD GAME") action ShowMenu("load") style "custom_button_text" text_style "custom_main_menu_text"
+
+            textbutton _("CHARACTERS") action ShowMenu("about") style "custom_button_text" text_style "custom_main_menu_text"
+        
+        else:
+            xpos gui.navigation_xpos
+            yalign 0.5
+            textbutton _("Main Menu") action MainMenu()
+
+    if mm:
+        vbox xalign 1.0 yalign 1.0:
+            imagebutton idle "gui/button/settings_idle.png" action ShowMenu("preferences") 
         # else:
 
         #     textbutton _("History") action ShowMenu("history")
 
         #     textbutton _("Save") action ShowMenu("save")
 
-        textbutton _("LOAD GAME") action ShowMenu("load") style "custom_button_text" text_style "custom_main_menu_text"
-
-        textbutton _("CHARACTERS") action ShowMenu("about") style "custom_button_text" text_style "custom_main_menu_text"
 
         # textbutton _("Preferences") action ShowMenu("preferences")
 
