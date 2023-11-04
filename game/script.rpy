@@ -3,6 +3,11 @@ define m = Character('Me', color="#c8c8ff")
 
 default book = False
 
+screen settings():
+    imagebutton:
+        align (1.0, 1.0)
+        idle "gui/button/settings_idle.png" action ShowMenu()
+
 screen back_button():
     imagebutton:
         align (0.0, 0.0)
@@ -12,6 +17,7 @@ label start:
 
     scene default_background
     show screen back_button
+    show screen settings
     with fade
 
     "After a short while, we reach the meadows just outside the neighborhood where we both live."
