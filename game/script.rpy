@@ -5,7 +5,7 @@ default book = False
 
 label start:
 
-    scene bg meadow
+    scene default_background
     with fade
 
     "After a short while, we reach the meadows just outside the neighborhood where we both live."
