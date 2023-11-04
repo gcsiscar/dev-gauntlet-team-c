@@ -50,26 +50,26 @@ define gui.muted_color = '#6684a3'
 define gui.hover_muted_color = '#99adc1'
 
 ## The colors used for dialogue and menu choice text.
-define gui.text_color = '#404040'
+define gui.text_color = '#44527d'
 define gui.interface_text_color = '#404040'
 
 
 ## Fonts and Font Sizes ########################################################
 
 ## The font used for in-game text.
-define gui.text_font = "DejaVuSans.ttf"
+define gui.text_font = "BoldFont.ttf"
 
 ## The font used for character names.
-define gui.name_text_font = "DejaVuSans.ttf"
+define gui.name_text_font = "BoldFont.ttf"
 
 ## The font used for out-of-game text.
 define gui.interface_text_font = "BoldFont.ttf"
 
 ## The size of normal dialogue text.
-define gui.text_size = 33
+define gui.text_size = 28
 
 ## The size of character names.
-define gui.name_text_size = 45
+define gui.name_text_size = 52
 
 ## The size of text in the game's user interface.
 define gui.interface_text_size = 33
@@ -130,8 +130,8 @@ define gui.namebox_tile = False
 ## The placement of dialogue relative to the textbox. These can be a whole
 ## number of pixels relative to the left or top side of the textbox, or 0.5 to
 ## center.
-define gui.dialogue_xpos = 402
-define gui.dialogue_ypos = 75
+define gui.dialogue_xpos = 100
+define gui.dialogue_ypos = -20
 
 ## The maximum width of dialogue text, in pixels.
 define gui.dialogue_width = 1116
