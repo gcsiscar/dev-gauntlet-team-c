@@ -3,9 +3,15 @@ define m = Character('Me', color="#c8c8ff")
 
 default book = False
 
+screen back_button():
+    imagebutton:
+        align (0.0, 0.0)
+        idle "gui/button/back_idle.png" action MainMenu()
+
 label start:
 
     scene default_background
+    show screen back_button
     with fade
 
     "After a short while, we reach the meadows just outside the neighborhood where we both live."
