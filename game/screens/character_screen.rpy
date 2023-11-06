@@ -76,7 +76,7 @@ screen character_screen():
         # xalign 0.5
         $ characters = [
             { "name": "Rosalyn", "unlocked": persistent.rosalyn_unlocked },
-            { "name": "???", "unlocked": True },
+            { "name": "???", "unlocked": False },
             { "name": "???", "unlocked": False },
             { "name": "???", "unlocked": False },
             { "name": "???", "unlocked": False },
