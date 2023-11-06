@@ -1,6 +1,8 @@
 ﻿define s = Character('SYLVIE', color="#eaaad3")
 define m = Character('Me', color="#c8c8ff")
 
+default persistent.rosalyn_unlocked = False
+
 screen next_button():
     imagebutton:
         align (0.96, 0.76)
@@ -56,11 +58,13 @@ label start:
 
 label game:
     show screen next_button
+    $ persistent.rosalyn_unlocked = True
     m "It's a kind of videogame you can play on your computer or a console."
     jump marry
 
 label book:
     show screen next_button
+    $ persistent.rosalyn_unlocked = True
     m "It's like an interactive book that you can read on a computer or a console."
     jump marry
 
