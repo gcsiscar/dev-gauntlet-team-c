@@ -313,7 +313,7 @@ screen navigation():
 
             textbutton _("LOAD GAME") action ShowMenu("load") style "custom_button_text" text_style "custom_main_menu_text"
 
-            textbutton _("CHARACTERS") action ShowMenu("about") style "custom_button_text" text_style "custom_main_menu_text"
+            textbutton _("CHARACTERS") action ShowMenu("character_screen") style "custom_button_text" text_style "custom_main_menu_text"
         
         else:
             xpos gui.navigation_xpos
@@ -1629,7 +1629,3 @@ style slider_vbox:
 style slider_slider:
     variant "small"
     xsize 900
-
-## Custom Styles
-style heroine:
-    color "#eaaad3"
