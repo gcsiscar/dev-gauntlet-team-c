@@ -467,7 +467,7 @@ translate None strings:
 
     # renpy/common/00gui.rpy:450
     old "Are you sure you want to quit?"
-    new "Are you sure you want to quit?"
+    new "Are you sure you\n want to quit?"
 
     # renpy/common/00gui.rpy:451
     old "Are you sure you want to return to the main menu?\nThis will lose unsaved progress."
