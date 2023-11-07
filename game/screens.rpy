@@ -8,6 +8,8 @@ init offset = -1
 ################################################################################
 ## Styles
 ################################################################################
+style button_sound_click:
+    activate_sound "audio/ui/button_click.ogg"
 
 style default:
     properties gui.text_properties()
@@ -340,7 +342,10 @@ screen navigation():
 
     if mm:
         vbox xalign 1.0 yalign 1.0:
-            imagebutton idle "gui/button/settings_idle.png" action ShowMenu("preferences") 
+            imagebutton:
+                style "button_sound_click"
+                idle "gui/button/settings_idle.png"
+                action ShowMenu("preferences") 
         # else:
 
         #     textbutton _("History") action ShowMenu("history")
@@ -1370,16 +1375,34 @@ screen confirm(message, yes_action, no_action):
             yalign .5
             spacing 45
 
+            # label _(message):
             label _(message):
                 style "confirm_prompt"
                 xalign 0.5
+                text_textalign 0.5
+                text_size 48
+                text_color "#44527d"
 
             hbox:
                 xalign 0.5
-                spacing 150
+                spacing 75
 
-                textbutton _("Yes") action yes_action
-                textbutton _("No") action no_action
+                vbox:
+                    imagebutton:
+                        style "button_sound_click"
+                        auto "gui/button/blue_btn_%s.png"
+                        action yes_action
+                    text "Yes" color "#ffffff" xalign 0.5 yoffset -100 size 48
+                
+                vbox:
+                    imagebutton:
+                        style "button_sound_click"
+                        auto "gui/button/red_btn_%s.png"
+                        action no_action
+                    text "No" color "#ffffff" xalign 0.5 yoffset -100 size 48
+
+                # textbutton _("Yes") action yes_action
+                # textbutton _("No") action no_action
 
     ## Right-click and escape answer "no".
     key "game_menu" action no_action
