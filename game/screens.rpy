@@ -745,6 +745,8 @@ style slot_button_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#preferences
 
+define persistent.music_on = False
+define persistent.dialogue_on = False
 screen preferences():
 
     tag menu
@@ -764,31 +766,156 @@ screen preferences():
     
     vbox xalign 1.0 yalign 1.0:
         imagebutton idle "gui/button/settings_idle.png" action ShowMenu("preferences")
-
-
+    
+    # Master Volume
     vbox:
-        align (0.5, 0.5)
+        align (0.5, 0.2)
+        # offset (30, 5)
         style_prefix "slider"
         box_wrap True
-
-        vbox:   
-            xalign 0.5
-            if config.has_music:
-                label _("Music Volume") xalign 0.5
-            
-                hbox:
-                    bar value Preference("music volume")
-                    $ number = int(preferences.get_volume('music')*100)
-                    label _("[number]%") offset (40, -8)
-        
-        vbox:   
-            xalign 0.5
-            label _("Sound Settings") xalign 0.5
-
+        label _("Master Volume") xalign 0.5 yoffset -20
         hbox:
-            xalign 0.5
-            text "Dialouge"
-            text "Music"
+            offset (23, 3)
+            bar value Preference("music volume")
+            $ number = int(preferences.get_volume('music')*100)
+            label _("[number]%") offset (32, -8) text_style "custom_slider_label"
+    
+    label _("Sound Settings") align (0.5, 0.3) yoffset 40
+
+    frame:
+        align(0.5, 0.4)
+        yoffset 60
+        background None
+        hbox:
+            spacing 80
+            vbox:
+                spacing 10
+                text "Dialouge" xalign 0.5:
+                    font "fonts/Roboto-Light.ttf"
+                    size 28
+                hbox:
+                    vbox:
+                        imagebutton:
+                            focus_mask True
+                            idle "gui/switch_off.png"
+                            hover "gui/switch_off.png"
+                            selected_idle "gui/switch_on.png"
+                            selected_hover "gui/switch_on.png"
+                            selected (persistent.dialogue_on)
+                            if persistent.dialogue_on:
+                                action NullAction()
+                            else:
+                                action ToggleVariable("persistent.dialogue_on", True, False)
+
+                        text "On" xalign 0.5 yoffset -36:
+                            if persistent.dialogue_on:
+                                color "#ffffff"
+                    
+                    vbox:
+                        imagebutton:
+                            focus_mask True
+                            idle "gui/switch_off.png"
+                            hover "gui/switch_off.png"
+                            selected_idle "gui/switch_on.png"
+                            selected_hover "gui/switch_on.png"
+                            selected (not persistent.dialogue_on)
+                            if persistent.dialogue_on:
+                                action ToggleVariable("persistent.dialogue_on", True, False)
+                            else:
+                                action NullAction()
+
+                        text "Off" xalign 0.5 yoffset -36:
+                            if not persistent.dialogue_on:
+                                color "#ffffff"
+            
+            vbox:
+                spacing 10
+                text "Music" xalign 0.5:
+                    font "fonts/Roboto-Light.ttf"
+                    size 28
+                hbox:
+                    vbox:
+                        imagebutton:
+                            focus_mask True
+                            idle "gui/switch_off.png"
+                            hover "gui/switch_off.png"
+                            selected_idle "gui/switch_on.png"
+                            selected_hover "gui/switch_on.png"
+                            selected (persistent.music_on)
+                            if persistent.music_on:
+                                action NullAction()
+                            else:
+                                action ToggleVariable("persistent.music_on", True, False)
+
+                        text "On" xalign 0.5 yoffset -36:
+                            if persistent.music_on:
+                                color "#ffffff"
+                    
+                    vbox:
+                        imagebutton:
+                            focus_mask True
+                            idle "gui/switch_off.png"
+                            hover "gui/switch_off.png"
+                            selected_idle "gui/switch_on.png"
+                            selected_hover "gui/switch_on.png"
+                            selected (not persistent.music_on)
+                            if persistent.music_on:
+                                action ToggleVariable("persistent.music_on", True, False)
+                            else:
+                                action NullAction()
+
+                        text "Off" xalign 0.5 yoffset -36:
+                            if not persistent.music_on:
+                                color "#ffffff"
+            
+
+
+    # Sound Effect Volume
+    vbox:
+        align (0.5, 0.6)
+        style_prefix "slider"
+        box_wrap True
+        text "Sound Effects Volume" xalign 0.5:
+            font "fonts/Roboto-Light.ttf"
+        hbox:
+            offset (23, 3)
+            bar value Preference("sound volume")
+            $ number = int(preferences.get_volume('sound')*100)
+
+            label _("[number]%") offset (32, -8) text_style "custom_slider_label"
+    
+    # Music Volume
+    vbox:
+        align (0.5, 0.7)
+        style_prefix "slider"
+        box_wrap True
+        text "Music Volume" xalign 0.5:
+            font "fonts/Roboto-Light.ttf"
+        hbox:
+            offset (23, 3)
+            bar value Preference("music volume")
+            $ number = int(preferences.get_volume('music')*100)
+            label _("[number]%") offset (32, -8) text_style "custom_slider_label"
+    # vbox:
+    #     align (0.5, 0.5)
+    #     style_prefix "slider"
+    #     box_wrap True
+
+    #     vbox:   
+    #         xalign 0.5
+    #         if config.has_music:
+    #             label _("Music Volume") xalign 0.5
+            
+    #             hbox:
+    #                 bar value Preference("music volume")
+    #                 $ number = int(preferences.get_volume('music')*100)
+    #                 label _("[number]%") offset (40, -8)
+        
+    #     vbox:   
+    #         xalign 0.5
+    #         label _("Sound Settings") xalign 0.5
+
+            # text "Music"
     # use game_menu(_("Preferences"), scroll="viewport"):
 
     #     vbox:
@@ -865,6 +992,9 @@ screen preferences():
     #                         action Preference("all mute", "toggle")
     #                         style "mute_all_button"
 
+style custom_slider_label:
+    font "fonts/Roboto-Light.ttf"
+    size 28
 
 style pref_label is gui_label
 style pref_label_text is gui_label_text
@@ -923,7 +1053,7 @@ style check_button_text:
     properties gui.button_text_properties("check_button")
 
 style slider_slider:
-    xsize 500
+    xsize 532
     thumb_offset 25
     right_bar "gui/slider/VolumeBarEmpty.png"
 
