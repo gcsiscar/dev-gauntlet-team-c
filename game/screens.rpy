@@ -298,8 +298,9 @@ screen navigation():
 
     if mm:
         text """BE CAREFUL WITH 
-        MY HEART!""" style "custom_main_menu_title"  at transform:
+        {color=#75abd7}MY HEART!{/color}""" style "custom_main_menu_title"  at transform:
             align (0.5, 0.45)
+
     
     if mm:
         vbox:
