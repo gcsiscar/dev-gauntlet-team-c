@@ -4,6 +4,8 @@
 ## information about the player's in-game character. 
 ##
 ##
+define char_selected_loc = -1
+
 screen character_details(name="???",char_image="cg_unlocked"):
     add "character_details_background":
         align (1.0, 0.51)
@@ -88,13 +90,16 @@ screen character_screen():
             { "name": "???", "unlocked": False },
             { "name": "???", "unlocked": False }
         ]
-        for c in characters:
+        for idx, c in enumerate(characters):
             $ name = c["name"]
             $ is_unlocked = c["unlocked"]
             fixed:
                 fit_first True
                 if is_unlocked:
-                    imagebutton auto "character_unlocked_%s.png" action [Hide("character_details"), Show("character_details", name=name)]
+                    imagebutton:
+                        auto "character_unlocked_%s.png" 
+                        selected_idle "character_unlocked_hover"
+                        action [SetVariable("char_selected_loc", idx), SelectedIf(char_selected_loc == idx), Hide("character_details"), Show("character_details", name=name)]
                     text "[name]" align (0.5, 1.0) yoffset 24
                     add "cg_unlocked":
                         align (0.5, 0.5)
