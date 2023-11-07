@@ -81,7 +81,7 @@ label start:
 
     m "Hey... Umm..."
 
-    show sylvie green smile:
+    show heroine_happy:
         xalign 0.8
 
     with dissolve
