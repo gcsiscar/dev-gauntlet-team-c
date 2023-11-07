@@ -300,25 +300,42 @@ screen navigation():
         text """BE CAREFUL WITH 
         MY HEART!""" style "custom_main_menu_title"  at transform:
             align (0.5, 0.45)
+    
+    if mm:
+        vbox:
+            spacing -60
+            align (0.5, 0.8)
+            yoffset 24
+            vbox:
+                imagebutton:
+                    auto "gui/button/main_menu_%s.png"
+                    action Start()
+                label _("New Game"):
+                    xalign 0.5
+                    yoffset -80
 
-    vbox:
-        style_prefix "navigation"
+            vbox:
+                imagebutton:
+                    auto "gui/button/main_menu_%s.png"
+                    activate_sound "audio/ui/button_click.ogg"
+                    action ShowMenu("load")
+                label _("Load Game"):
+                    xalign 0.5
+                    yoffset -80
 
-        spacing gui.navigation_spacing
+            vbox:
+                imagebutton:
+                    auto "gui/button/main_menu_%s.png"
+                    activate_sound "audio/ui/button_click.ogg"
+                    action ShowMenu("character_screen")
+                label _("Characters"):
+                    xalign 0.5
+                    yoffset -80
 
-        if mm:
-            xcenter 0.5
-            yalign 0.78
-            textbutton _("NEW GAME") action Start() style "custom_button_text" text_style "custom_main_menu_text"
-
-            textbutton _("LOAD GAME") action ShowMenu("load") style "custom_button_text" text_style "custom_main_menu_text"
-
-            textbutton _("CHARACTERS") action ShowMenu("character_screen") style "custom_button_text" text_style "custom_main_menu_text"
-        
-        else:
-            xpos gui.navigation_xpos
-            yalign 0.5
-            textbutton _("Main Menu") action MainMenu()
+    #     else:
+    #         xpos gui.navigation_xpos
+    #         yalign 0.5
+    #         textbutton _("Main Menu") action MainMenu()
 
     if mm:
         vbox xalign 1.0 yalign 1.0:
