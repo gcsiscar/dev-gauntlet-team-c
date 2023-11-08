@@ -5,6 +5,7 @@ define uf = Character("Unknown Figure")
 define dr = Character("Doctor")
 
 label start:
+    show screen settings_button
     scene bg_beach_night_1
 
     jv "A gentle breeze causes the palm fronds overhead to rustle, sounding like nature's own bamboo wind chimes. This is a popular retreat for couples in the summer. The tropical trees provide a lush green canopy, far out of sight of teachers and fellow students. But now, in the late dry season, it feels like I'm standing under a pile of kindling. I breathe into my cupped hands and rub them together furiously to prevent them from numbing in this evening chill."
