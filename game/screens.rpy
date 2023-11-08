@@ -331,11 +331,7 @@ screen navigation():
                     xalign 0.5
                     yoffset -80
 
-        vbox xalign 1.0 yalign 1.0:
-            imagebutton:
-                style "button_sound_click"
-                idle "gui/button/settings_idle.png"
-                action ShowMenu("preferences") 
+        use settings_button()
 
     if not main_menu:
         textbutton _("Main Menu"):
@@ -734,8 +730,8 @@ style slot_button_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#preferences
 
-define persistent.music_on = False
-define persistent.dialogue_on = False
+default persistent.music_on = False
+default persistent.dialogue_on = False
 screen preferences():
 
     tag menu
@@ -765,8 +761,8 @@ screen preferences():
         label _("Master Volume") xalign 0.5 yoffset -20
         hbox:
             offset (23, 3)
-            bar value Preference("music volume")
-            $ number = int(preferences.get_volume('music')*100)
+            bar value Preference("main volume")
+            $ number = int(preferences.get_mixer('main')*100)
             label _("[number]%") offset (32, -8) text_style "custom_slider_label"
     
     label _("Sound Settings") align (0.5, 0.3) yoffset 40
@@ -869,7 +865,7 @@ screen preferences():
         hbox:
             offset (23, 3)
             bar value Preference("sound volume")
-            $ number = int(preferences.get_volume('sound')*100)
+            $ number = int(preferences.get_mixer('sfx')*100)
 
             label _("[number]%") offset (32, -8) text_style "custom_slider_label"
     
@@ -883,103 +879,21 @@ screen preferences():
         hbox:
             offset (23, 3)
             bar value Preference("music volume")
-            $ number = int(preferences.get_volume('music')*100)
+            $ number = int(preferences.get_mixer('music')*100)
             label _("[number]%") offset (32, -8) text_style "custom_slider_label"
-    # vbox:
-    #     align (0.5, 0.5)
-    #     style_prefix "slider"
-    #     box_wrap True
 
-    #     vbox:   
-    #         xalign 0.5
-    #         if config.has_music:
-    #             label _("Music Volume") xalign 0.5
-            
-    #             hbox:
-    #                 bar value Preference("music volume")
-    #                 $ number = int(preferences.get_volume('music')*100)
-    #                 label _("[number]%") offset (40, -8)
-        
-    #     vbox:   
-    #         xalign 0.5
-    #         label _("Sound Settings") xalign 0.5
+    vbox:
+        align (0.5, 0.8)
+        box_wrap True
+        style_prefix "slider"
+        text "Text Speed" xalign 0.5:
+            font "fonts/Roboto-Light.ttf"
+        hbox:
+            offset (23, 3)
+            bar value Preference("text speed")
+            $ number = int(preferences.text_cps)
+            label _("[number]") offset (32, -8) text_style "custom_slider_label"
 
-            # text "Music"
-    # use game_menu(_("Preferences"), scroll="viewport"):
-
-    #     vbox:
-
-    #         hbox:
-    #             box_wrap True
-
-    #             if renpy.variant("pc") or renpy.variant("web"):
-
-    #                 vbox:
-    #                     style_prefix "radio"
-    #                     label _("Display")
-    #                     textbutton _("Window") action Preference("display", "window")
-    #                     textbutton _("Fullscreen") action Preference("display", "fullscreen")
-
-    #             vbox:
-    #                 style_prefix "check"
-    #                 label _("Skip")
-    #                 textbutton _("Unseen Text") action Preference("skip", "toggle")
-    #                 textbutton _("After Choices") action Preference("after choices", "toggle")
-    #                 textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
-
-    #             ## Additional vboxes of type "radio_pref" or "check_pref" can be
-    #             ## added here, to add additional creator-defined preferences.
-
-    #         null height (4 * gui.pref_spacing)
-
-    #         hbox:
-    #             style_prefix "slider"
-    #             box_wrap True
-
-    #             vbox:
-
-    #                 label _("Text Speed")
-
-    #                 bar value Preference("text speed") 
-
-    #                 label _("Auto-Forward Time")
-
-    #                 bar value Preference("auto-forward time")
-
-    #             vbox:
-
-    #                 if config.has_music:
-    #                     label _("Music Volume")
-
-    #                     hbox:
-    #                         bar value Preference("music volume")
-
-    #                 if config.has_sound:
-
-    #                     label _("Sound Volume")
-
-    #                     hbox:
-    #                         bar value Preference("sound volume")
-
-    #                         if config.sample_sound:
-    #                             textbutton _("Test") action Play("sound", config.sample_sound)
-
-
-    #                 if config.has_voice:
-    #                     label _("Voice Volume")
-
-    #                     hbox:
-    #                         bar value Preference("voice volume")
-
-    #                         if config.sample_voice:
-    #                             textbutton _("Test") action Play("voice", config.sample_voice)
-
-    #                 if config.has_music or config.has_sound or config.has_voice:
-    #                     null height gui.pref_spacing
-
-    #                     textbutton _("Mute All"):
-    #                         action Preference("all mute", "toggle")
-    #                         style "mute_all_button"
 
 style custom_slider_label:
     font "fonts/Roboto-Light.ttf"
@@ -1808,3 +1722,11 @@ style slider_vbox:
 style slider_slider:
     variant "small"
     xsize 900
+
+### Utils Screen
+screen settings_button(xalign=1.0, yalign=1.0):
+    imagebutton:
+        align (xalign, yalign)
+        style "button_sound_click"
+        idle "gui/button/settings_idle.png"
+        action ShowMenu("preferences") 
