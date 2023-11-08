@@ -298,8 +298,8 @@ screen navigation():
     # Main Menu layout
     $ mm = renpy.get_screen("main_menu")
     if mm:
-        text """BE CAREFUL WITH 
-        {color=#75abd7}MY HEART!{/color}""" style "custom_main_menu_title" at transform:
+        text """Castling 
+        {color=#75abd7}Hearts!{/color}""" style "custom_main_menu_title" at transform:
             align (0.5, 0.45)
         vbox:
             spacing -60
