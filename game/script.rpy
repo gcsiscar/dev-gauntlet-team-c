@@ -1,10 +1,27 @@
-﻿define j = Character("James")
-define jv = Character("James (Inside Voice)")
-define c = Character("Clara")
-define uf = Character("Unknown Figure")
-define dr = Character("Doctor")
+﻿init python:
+    # for importing libraries
+    import_dir = os.path.join(renpy.config.gamedir, THIS_PATH, 'python-packages')
+
+define text_light = "#7FA8D5"
+
+image ctc_blink:
+    "gui/button/next_button_idle.png"
+    xalign 1.0 
+    yalign 0.8
+    yoffset -30
+    xoffset -80
+    linear 0.75 alpha 1.0
+    linear 0.75 alpha 0.0
+    repeat
+
+define j = Character("James", ctc="ctc_blink", ctc_position="fixed")
+define jv = Character("James (Inside Voice)", color=text_light,ctc="ctc_blink", ctc_position="fixed")
+define c = Character("Clara", ctc="ctc_blink", ctc_position="fixed")
+define uf = Character("Unknown Figure", ctc="ctc_blink", ctc_position="fixed")
+define dr = Character("Doctor", ctc="ctc_blink", ctc_position="fixed")
 
 label start:
+    play music "beach.ogg" fadeout 1.0 fadein 1.0 volume 0.25
     show screen settings_button
     scene bg_beach_night_1
 
@@ -14,7 +31,11 @@ label start:
 
     jv "Ah yes... the note... slipped in my bag while I wasn't looking. As far as clichés go, I'm more a fan of the late text message, but at least this way shows a bit of initiative. As I ponder the meaning of the note, the dusk gradually deepens. The fireflies silently lighting up the darkening sky are the only sign of time passing in this stagnant world. Their slow dance upon the quiet beach makes it seem like time has slowed to a crawl. As I gaze into the night sky, the rustling of dry sand nearby startles me, interrupting the quiet mood. Someone is approaching me from behind."
 
+    play sound "footsteps_in_water.ogg" volume 0.5
+
     jv "???"
+
+    stop sound 
 
     uf "Hi... James? You came?"
 
@@ -42,6 +63,8 @@ label start:
 
         "I'd love to":
             pass
+    
+    stop music 
     
     jv "I stand there, motionless, save for my pounding heart. I want to say something in reply, but my vocal cords feel like they've been stretched beyond the breaking point."
 
@@ -79,6 +102,43 @@ label start:
     scene bg_hospital_2
 
     jv  "Then, one day, my nurse brought in a chess set. 'It's good for the mind,' she said. I was skeptical at first, but with nothing else to do, I started to play."
+
+    jump intro_chess_game
+
+
+
+label intro_chess_game:
+    # board notation
+    $ fen = STARTING_FEN
+    $ STOCKFISH_ENGINE = chess.engine.SimpleEngine.popen_uci(STOCKFISH, startupinfo=STARTUPINFO)
+
+    # window hide
+    $ quick_menu = False
+
+    # # avoid rolling back and losing chess game state
+    $ renpy.block_rollback()
+
+    # # disable Esc key menu to prevent the player from saving the game
+    $ _game_menu_screen = None
+
+    # call screen chess(fen, player_color=chess.WHITE, depth=-1)
+    call screen chess(fen, player_color=None, depth=0)
+
+    # re-enable the Esc key menu
+    $ _game_menu_screen = 'save'
+
+    # # avoid rolling back and entering the chess game again
+    $ renpy.block_rollback()
+
+    # # restore rollback from this point on
+    $ renpy.checkpoint()
+
+    # kill stockfish engine
+    $ quit_stockfish()
+
+    $ quick_menu = True
+    # window show
+    jv "At first, I was just moving the pieces without any strategy. But as days turned into weeks, I began to see patterns, strategies. I read books about chess, learned famous moves. The game became a new world for me, a world where I could control the outcome. It was a small thing, but it gave me a sense of control that was missing from my life."
 
     scene bg_hospital_3
 
