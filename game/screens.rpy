@@ -740,6 +740,10 @@ screen preferences():
 
     add "gui/settings_background.png":
         align (0.5, 0.5)
+    
+    use settings_button()
+    if not main_menu:
+        use exit_button()
 
     vbox:
         align (0.5, 0.5)
@@ -749,8 +753,6 @@ screen preferences():
     vbox xalign 0.0 yalign 0.0:
         imagebutton idle "gui/button/back_idle.png" action Return()
     
-    vbox xalign 1.0 yalign 1.0:
-        imagebutton idle "gui/button/settings_idle.png" action ShowMenu("preferences")
     
     # Master Volume
     vbox:
@@ -1733,3 +1735,12 @@ screen settings_button(xalign=1.0, yalign=1.0):
         style "button_sound_click"
         idle "gui/button/settings_idle.png"
         action ShowMenu("preferences") 
+
+screen exit_button(xalign=1.0, yalign=0.0):
+    vbox:
+        align (xalign, yalign)
+        imagebutton:
+            style "button_sound_click"
+            auto "gui/button/red_btn_%s.png"
+            action MainMenu()
+        text "Exit" color "#ffffff" xalign 0.5 yoffset -100 size 48
