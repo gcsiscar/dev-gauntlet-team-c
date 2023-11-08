@@ -295,16 +295,12 @@ style custom_main_menu_title:
     color "#ebaad4"
 
 screen navigation():
-
+    # Main Menu layout
     $ mm = renpy.get_screen("main_menu")
-
     if mm:
         text """BE CAREFUL WITH 
-        {color=#75abd7}MY HEART!{/color}""" style "custom_main_menu_title"  at transform:
+        {color=#75abd7}MY HEART!{/color}""" style "custom_main_menu_title" at transform:
             align (0.5, 0.45)
-
-    
-    if mm:
         vbox:
             spacing -60
             align (0.5, 0.8)
@@ -335,47 +331,17 @@ screen navigation():
                     xalign 0.5
                     yoffset -80
 
-    #     else:
-    #         xpos gui.navigation_xpos
-    #         yalign 0.5
-    #         textbutton _("Main Menu") action MainMenu()
-
-    if mm:
         vbox xalign 1.0 yalign 1.0:
             imagebutton:
                 style "button_sound_click"
                 idle "gui/button/settings_idle.png"
                 action ShowMenu("preferences") 
-        # else:
 
-        #     textbutton _("History") action ShowMenu("history")
-
-        #     textbutton _("Save") action ShowMenu("save")
-
-
-        # textbutton _("Preferences") action ShowMenu("preferences")
-
-        # if _in_replay:
-
-        #     textbutton _("End Replay") action EndReplay(confirm=True)
-
-        # elif not main_menu:
-
-        #     textbutton _("Main Menu") action MainMenu()
-
-        # textbutton _("About") action ShowMenu("about")
-
-        # if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-
-        #     ## Help isn't necessary or relevant to mobile devices.
-        #     textbutton _("Help") action ShowMenu("help")
-
-        # if renpy.variant("pc"):
-
-        #     ## The quit button is banned on iOS and unnecessary on Android and
-        #     ## Web.
-        #     textbutton _("Quit") action Quit(confirm=not main_menu)
-
+    if not main_menu:
+        textbutton _("Main Menu"):
+            yalign 0.5
+            xpos 60
+            action MainMenu()
 
 style navigation_button is gui_button
 style navigation_button_text is gui_button_text
