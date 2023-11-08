@@ -119,7 +119,7 @@ screen chess(fen, player_color, depth):
     add CHESS_BG
 
     # add THIS_PATH + IMAGE_PATH + "heroine_one.png" zoom 1.2
-    add THIS_PATH + IMAGE_PATH + "heroine_happy.png" xalign 1.0
+    # add THIS_PATH + IMAGE_PATH + "heroine_happy.png" xalign 1.0
 
     # left top panel for diplaying whoseturn text
     # fixed xpos 20 ypos 80 spacing 40:
