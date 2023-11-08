@@ -769,7 +769,7 @@ screen preferences():
 
     frame:
         align(0.5, 0.4)
-        yoffset 60
+        yoffset 40
         background None
         hbox:
             spacing 80
@@ -858,6 +858,7 @@ screen preferences():
     # Sound Effect Volume
     vbox:
         align (0.5, 0.6)
+        yoffset -50
         style_prefix "slider"
         box_wrap True
         text "Sound Effects Volume" xalign 0.5:
@@ -872,6 +873,7 @@ screen preferences():
     # Music Volume
     vbox:
         align (0.5, 0.7)
+        yoffset -50
         style_prefix "slider"
         box_wrap True
         text "Music Volume" xalign 0.5:
@@ -884,6 +886,7 @@ screen preferences():
 
     vbox:
         align (0.5, 0.8)
+        yoffset -50
         box_wrap True
         style_prefix "slider"
         text "Text Speed" xalign 0.5:
