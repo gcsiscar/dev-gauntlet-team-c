@@ -17,7 +17,8 @@ define AUDIO_CHECK = THIS_PATH + AUDIO_PATH + 'check.wav'
 define AUDIO_CHECKMATE = THIS_PATH + AUDIO_PATH + 'checkmate.wav'
 define AUDIO_DRAW = THIS_PATH + AUDIO_PATH + 'draw.wav' # used for resign, stalemate, threefold, fifty-move
 define AUDIO_FLIP_BOARD = THIS_PATH + AUDIO_PATH + 'flip_board.wav'
-define BG = THIS_PATH + IMAGE_PATH + 'game_menu.png'
+
+define CHESS_BG = THIS_PATH + IMAGE_PATH + 'plaza.png'
 
 # this chess game is full-screen when the game resolution is 1280x720
 define CHESS_SCREEN_WIDTH = 1280
@@ -115,61 +116,63 @@ screen chess(fen, player_color, depth):
         )
 
     # add Solid("images/game_menu.png") # black
-    add BG
+    add CHESS_BG
+
+    # add THIS_PATH + IMAGE_PATH + "heroine_one.png" zoom 1.2
+    add THIS_PATH + IMAGE_PATH + "heroine_happy.png" xalign 1.0
 
     # left top panel for diplaying whoseturn text
-    fixed xpos 20 ypos 80 spacing 40:
-        vbox:
-            showif chess_displayable.whose_turn == chess.WHITE:
-                text 'Whose turn: White' style 'game_status_text'
-            else:
-                text 'Whose turn: Black' style 'game_status_text'
+    # fixed xpos 20 ypos 80 spacing 40:
+    #     vbox:
+    #         showif chess_displayable.whose_turn == chess.WHITE:
+    #             text 'Whose turn: White' style 'game_status_text'
+    #         else:
+    #             text 'Whose turn: Black' style 'game_status_text'
             
-            showif chess_displayable.game_status == CHECKMATE:
-                text 'Checkmate' style 'game_status_text'
-            elif chess_displayable.game_status == STALEMATE:
-                text 'Stalemate' style 'game_status_text'
-            elif chess_displayable.game_status == INCHECK:
-                text 'In Check' style 'game_status_text'
-            # no need to display DRAW or RESIGN as they immediately return
+    #         showif chess_displayable.game_status == CHECKMATE:
+    #             text 'Checkmate' style 'game_status_text'
+    #         elif chess_displayable.game_status == STALEMATE:
+    #             text 'Stalemate' style 'game_status_text'
+    #         elif chess_displayable.game_status == INCHECK:
+    #             text 'In Check' style 'game_status_text'
+    #         # no need to display DRAW or RESIGN as they immediately return
 
-            null height 50
+    #         null height 50
 
-            text 'Most recent moves' style 'game_status_text' xalign 0.5
-            for move in chess_displayable.history:
-                text move.uci() style 'game_status_text' xalign 0.5
+    #         text 'Most recent moves' style 'game_status_text' xalign 0.5
+    #         for move in chess_displayable.history:
+    #             text move.uci() style 'game_status_text' xalign 0.5
 
     # left bottom
-    fixed xpos 20 ypos 500:
-        vbox:
-            hbox spacing 5:
-                text 'Resign' color COLOR_WHITE yalign 0.5
-                textbutton '⚐':
-                    action [Confirm('Would you like to resign?', 
-                        yes=[
-                        Play('sound', AUDIO_DRAW),
-                        # if the current player resigns, the winner will be the opposite side
-                        Return(not chess_displayable.whose_turn)
-                        ])]
-                    style 'control_button' yalign 0.5
+    # fixed xpos 20 ypos 500:
+    #     vbox:
+    #         hbox spacing 5:
+    #             text 'Resign' color COLOR_WHITE yalign 0.5
+    #             textbutton '⚐':
+    #                 action [Confirm('Would you like to resign?', 
+    #                     yes=[
+    #                     Play('sound', AUDIO_DRAW),
+    #                     # if the current player resigns, the winner will be the opposite side
+    #                     Return(not chess_displayable.whose_turn)
+    #                     ])]
+    #                 style 'control_button' yalign 0.5
 
-            hbox spacing 5:
-                text 'Undo move' color COLOR_WHITE yalign 0.5
-                textbutton '⟲':
-                    action [Function(chess_displayable.undo_move)]
-                    style 'control_button' yalign 0.5
+    #         hbox spacing 5:
+    #             text 'Undo move' color COLOR_WHITE yalign 0.5
+    #             textbutton '⟲':
+    #                 action [Function(chess_displayable.undo_move)]
+    #                 style 'control_button' yalign 0.5
 
-            hbox spacing 5:
-                text 'Flip board view' color COLOR_WHITE yalign 0.5
-                textbutton '↑↓':
-                    action [Play('sound', AUDIO_FLIP_BOARD),
-                    ToggleField(chess_displayable, 'bottom_color'),
-                    SetField(chess_displayable, 'has_flipped_board', True)]
-                    style 'control_button' yalign 0.5
+    #         hbox spacing 5:
+    #             text 'Flip board view' color COLOR_WHITE yalign 0.5
+    #             textbutton '↑↓':
+    #                 action [Play('sound', AUDIO_FLIP_BOARD),
+    #                 ToggleField(chess_displayable, 'bottom_color'),
+    #                 SetField(chess_displayable, 'has_flipped_board', True)]
+    #                 style 'control_button' yalign 0.5
 
     # middle panel for chess displayable
-    # xpos 280
-    fixed xpos 500 ypos 250:
+    fixed xpos 600 ypos 180:
         add Image(IMG_CHESSBOARD)
         add chess_displayable
         add hover_displayable # hover loc over chesspieces
