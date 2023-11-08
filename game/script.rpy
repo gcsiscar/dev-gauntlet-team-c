@@ -1,211 +1,92 @@
-﻿# The script of the game goes in this file.
-
-# Declare characters used by this game. The color argument colorizes the
-# name of the character.
-
-# define e = Character("Eileen")
-
-# THIS_PATH is defined in chess_displayable.rpy
-# define THIS_PATH = '00-chess-engine/'
-init python:
-    # for importing libraries
-    import_dir = os.path.join(renpy.config.gamedir, THIS_PATH, 'python-packages')
-
-# The game starts here.
-
-# label start:
-#     scene bg room
-#     e "Welcome to the Ren'Py Chess Game!"
-
-
-define e = Character("Eileen")
-
-# define the song titles and their files
-init python:
-    # must be persistent to be able to record the scores
-    # after adding new songs, please remember to delete the persistent data
-
-    rhythm_game_songs = [
-    Song('Isolation', 'audio/Isolation.mp3', 'audio/Isolation.beatmap.txt'),
-    Song('Positivity', 'audio/Positivity.mp3', 'audio/Positivity.beatmap.txt'),
-    Song('Pearlescent', 'audio/Pearlescent.mp3', 'audio/Pearlescent.beatmap.txt'),
-    Song('Pearlescent - trimmed', 'audio/Pearlescent - trimmed.mp3', 'audio/Pearlescent - trimmed.beatmap.txt'), # 22 sec, easy to test 
-    Song('Thoughts', 'audio/Thoughts.mp3', 'audio/Thoughts.beatmap.txt')
-    ]
-
-    # # init
-    # if persistent.rhythm_game_high_scores:
-    #     for song in songs:
-    #         if not song in persistent.rhythm_game_high_scores:
-    #             persistent.rhythm_game_high_scores[song] = (0, 0)
-
-# map song name to high scores
-default persistent.rhythm_game_high_scores = {
-    song.name: (0, 0) for song in rhythm_game_songs
-}
-
-# the song that the player chooses to play, set in `choose_song_screen` below
-default selected_song = None
-define s = Character('SYLVIE', color="#eaaad3")
-define m = Character('Me', color="#c8c8ff")
-
-default persistent.rosalyn_unlocked = False
-
-screen next_button():
-    imagebutton:
-        align (0.96, 0.76)
-        idle "gui/button/next_button_idle.png" action renpy.curry(renpy.end_interaction)(True)
-
-screen settings():
-    imagebutton:
-        align (1.0, 1.0)
-        idle "gui/button/settings_idle.png" action ShowMenu()
-
-screen back_button():
-    imagebutton:
-        align (0.0, 0.0)
-        idle "gui/button/back_idle.png" action MainMenu()
+﻿define j = Character("James")
+define jv = Character("James (Inside Voice)")
+define c = Character("Clara")
+define uf = Character("Unknown Figure")
+define dr = Character("Doctor")
 
 label start:
-    scene default_background
-    show screen back_button
-    show screen settings
-    show screen next_button
-    with fade
+    scene bg_beach_night_1
 
-    "After a short while, we reach the meadows just outside the neighborhood where we both live."
+    jv "A gentle breeze causes the palm fronds overhead to rustle, sounding like nature's own bamboo wind chimes. This is a popular retreat for couples in the summer. The tropical trees provide a lush green canopy, far out of sight of teachers and fellow students. But now, in the late dry season, it feels like I'm standing under a pile of kindling. I breathe into my cupped hands and rub them together furiously to prevent them from numbing in this evening chill."
 
-    "It's a scenic view I've grown used to. Autumn is especially beautiful here."
+    j "Just how long am I expected to wait out here, anyway? I'm sure the note said 7:00 PM."
 
-    "When we were children, we played in these meadows a lot, so they're full of memories."
+    jv "Ah yes... the note... slipped in my bag while I wasn't looking. As far as clichés go, I'm more a fan of the late text message, but at least this way shows a bit of initiative. As I ponder the meaning of the note, the dusk gradually deepens. The fireflies silently lighting up the darkening sky are the only sign of time passing in this stagnant world. Their slow dance upon the quiet beach makes it seem like time has slowed to a crawl. As I gaze into the night sky, the rustling of dry sand nearby startles me, interrupting the quiet mood. Someone is approaching me from behind."
 
-    m "Hey... Umm..."
+    jv "???"
 
-    show heroine_happy:
-        xalign 0.8
+    uf "Hi... James? You came?"
 
+    jv "She asks something so quietly, I can barely hear it. It's dark, but I can see her outline. That soft voice? I'd know it anywhere.  I feel my heart skip a beat. It's her—the one I've always listened to from afar. My heart beats faster as I turn to see her…"
+
+    scene bg_beach_night_2
+
+    j "Clara? I got a note telling me to wait here... it was yours?"
+
+    jv "Dammit. I spent all afternoon trying to come up with a good line and that was the result. Pathetic."
+
+    c "Ahmm... yes. I asked a friend to give you that note... I'm so glad you got it."
+
+    jv "A shy, joyous smile that makes me so tense I couldn't move a single muscle even if I tried. My heart is pounding now, as if it were trying to burst out from my chest and claim this girl for itself."
+
+    j "So... ah... here we are. Out in the cool evening..."
+
+    jv "Once again, the wind stirs up the palm fronds. The rhythmic noise is music to my ears. Clara flinches ever so softly against the gust of wind. As it passes, she rights herself, as if supported by some new confidence. Her eyes lock with mine and she lazily twirls her long, dark hair around her finger. All the while, the anxious beating of my heart grows louder. My throat is tight; I doubt I could even force a word out if I tried."
+
+    menu:
+        c "You see... ...I wanted to know... ...if you'd go out with me..."
+
+        "Sure why not!":
+            pass
+
+        "I'd love to":
+            pass
+    
+    jv "I stand there, motionless, save for my pounding heart. I want to say something in reply, but my vocal cords feel like they've been stretched beyond the breaking point."
+
+    c "... James?"
+
+    jv "I reach up to try to massage my throat, but this only sends spikes of blinding pain along my arms."
+
+    c "... James?"
+
+    jv "My body seizes up, every muscle constricting, and my eyes squeeze shut against a surge of pain, sending me tumbling to the ground."
+
+    scene bg_beach_night_3
+
+    c "... James?"
+
+    jv "The beating in my chest suddenly stops, and I go weak at the knees. The world around me - the canopy of palm fronds, the darkening evening sky, Clara running towards me - all these fade to black. The last things I remember before slipping away are the sounds of Clara screaming for help and the incessant rustle of the palm fronds above..."
+
+    "Time Skip"
+
+    scene bg_hospital_1
+
+    jv "3 months since my heart attack, confined to a hospital room, I've had time to reflect on my condition, arrhythmia. It's a rare, potentially fatal heart disorder. They said it was a miracle I'd lived so long without symptoms. My parents were devastated, even willing to sell our house for a cure that doesn't exist."
+
+    jv "Hospital life is monotonous. Initially, there were visitors and get-well gifts, but they dwindled. Only my parents visited regularly. Clara, the last friend to stop visiting, never mentioned the incident that led to my hospitalization."
+
+    scene bg_beach_night_3
+    with dissolve
+    pause 1.5
+
+    scene bg_hospital_1
     with dissolve
 
-    "She turns to me and smiles. She looks so welcoming that I feel my nervousness melt away."
+    jv "The hospital staff, always in a hurry, felt impersonal. I stopped watching TV and started reading, losing track of time."
 
-    "I'll ask her...!"
+    scene bg_hospital_2
 
-    m "Ummm... Will you..."
+    jv  "Then, one day, my nurse brought in a chess set. 'It's good for the mind,' she said. I was skeptical at first, but with nothing else to do, I started to play."
 
-    m "Will you be my artist for a visual novel?"
+    scene bg_hospital_3
 
-    hide screen next_button
-    menu:
-        s "Sure, but what's a \"visual novel?\""
-        "It's a videogame.":
-            jump game
+    jv "One day, the doctor, with my parents present, announced I could go home. The list of lifelong medications was overwhelming. Then came the bombshell - I couldn't return to my old school."
 
-        "It's an interactive book.":
-            jump book
+    dr "Your parents have decided to transfer your treatment to their hometown, Iloilo City. They have several great heart centers there that can manage your condition. Better living conditions and a slow paced life might be good for you!"
 
+    jv "I was shocked. What am I going to do with my ???. My parents have arranged a transfer to Central Iloilo University, an ordinary university with low barriers of entry. Apparently, they accept anybody there."
 
-label game:
-    show screen next_button
-    $ persistent.rosalyn_unlocked = True
-    hide screen next_button
-    window hide
-    call rhythm_game_entry_label
-    m "It's a kind of videogame you can play on your computer or a console."
-    jump marry
-
-label book:
-    show screen next_button
-    $ persistent.rosalyn_unlocked = True
-    m "It's like an interactive book that you can read on a computer or a console."
-    jump chess_game
-    # jump marry
-
-label marry:
-    show screen next_button
-    "And so, we become a visual novel creating duo."
-    jump ending
-
-
-label chess_game:
-    # board notation
-    $ fen = STARTING_FEN
-    $ STOCKFISH_ENGINE = chess.engine.SimpleEngine.popen_uci(STOCKFISH, startupinfo=STARTUPINFO)
-
-    menu:
-        "Please select the game mode."
-
-        "Player vs. Player":
-            $ player_color = None # None for Player vs. Player
-            $ depth = None
-
-        "Player vs. Computer":
-            # initialize other variables used by the stockfish engine in stockfish.go()
-            menu:
-                "Please select a difficulty level"
-
-                "Easy":
-                    $ depth = 2
-
-                "Medium":
-                    $ depth = 6
-
-                "Hard":
-                    $ depth = 12
-
-            menu:
-                "Please select Player color"
-
-                "White":
-                    $ player_color = chess.WHITE # this constant is defined in chess_displayable.rpy 
-
-                "Black":
-                    # board view flipped so that the player's color is at the bottom of the screen
-                    $ player_color = chess.BLACK
-
-    window hide
-    $ quick_menu = False
-
-    # avoid rolling back and losing chess game state
-    $ renpy.block_rollback()
-
-    # disable Esc key menu to prevent the player from saving the game
-    $ _game_menu_screen = None
-
-    call screen chess(fen, player_color, depth)
-
-    # re-enable the Esc key menu
-    $ _game_menu_screen = 'save'
-
-    # avoid rolling back and entering the chess game again
-    $ renpy.block_rollback()
-
-    # restore rollback from this point on
-    $ renpy.checkpoint()
-
-    # kill stockfish engine
-    $ quit_stockfish()
-
-    $ quick_menu = True
-    window show
-
-    if _return == DRAW:
-        e "The game ended in a draw."
-    else: # RESIGN or CHECKMATE
-        $ winner = "White" if _return == chess.WHITE else "Black"
-        e "The winner is [winner]."
-        if player_color is not None: # PvC
-            if _return == player_color:
-                e "Congratulations, player!"
-            else:
-                e "Better luck next time, player."
-
-    menu:
-        "Would you like to play another game?"
-
-        "Yes":
-            jump chess_game
-
-        "No":
-            pass
+    jv "I felt insulted. An ordinary school. This is such a downgrade from my previous school De La Soleil University! However, I had no choice. I’m just happy to be alive. I had to accept my new reality. A clean slate isn't a bad thing. It's a fresh start, and my life isn't over. And who knows, maybe they have a chess club."
 
     return
