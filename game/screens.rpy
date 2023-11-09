@@ -308,6 +308,7 @@ screen navigation():
             vbox:
                 imagebutton:
                     auto "gui/button/main_menu_%s.png"
+                    activate_sound "audio/ui/button_click.ogg"
                     action Start()
                 label _("New Game"):
                     xalign 0.5
