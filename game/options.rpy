@@ -210,3 +210,4 @@ init python:
 
 ## Enable console
 define config.console = True
+define config.developer = False
