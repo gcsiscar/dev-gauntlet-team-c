@@ -55,7 +55,7 @@ label splashscreen:
     return 
 
 label start:
-    play music "beach.ogg" fadeout 1.0 fadein 1.0 volume 0.25
+    play music "beach.ogg" fadeout 1.0 fadein 1.0 
     show screen settings_button(xalign=1.0, yalign=0.0)
     scene bg_beach_night_1
 
@@ -141,11 +141,11 @@ label start:
 
     ## Change to black background with white text - 3 months later
     # "Time Skip"
-    show screen time_skip
-    with dissolve
+    show screen time_skip with dissolve
     pause 1.5
+    
     scene bg_hospital_1
-    hide screen time_skip
+    hide screen time_skip with dissolve
 
     pause 1.5
     jv "3 months since my heart attack, confined to a hospital room, I've had time to reflect on my condition, arrhythmia. It's a rare, potentially fatal heart disorder."
