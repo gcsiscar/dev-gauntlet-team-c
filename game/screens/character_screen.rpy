@@ -55,8 +55,7 @@ screen character_screen():
     vbox xalign 0.0 yalign 0.0:
         imagebutton idle "gui/button/back_idle.png" action [Return(), Hide("character_details")]
     
-    vbox xalign 1.0 yalign 1.0:
-        imagebutton idle "gui/button/settings_idle.png" action ShowMenu("preferences")
+    use settings_button()
     
     add "character_sheet_background.png":
         align (0.18, 0.52)

@@ -1762,7 +1762,7 @@ screen settings_button(xalign=1.0, yalign=1.0):
         align (xalign, yalign)
         style "button_sound_click"
         idle "gui/button/settings_idle.png"
-        action ShowMenu("preferences") 
+        action [Hide("character_details"),ShowMenu("preferences")]
 
 screen exit_button(xalign=1.0, yalign=0.0):
     vbox:
