@@ -1293,14 +1293,24 @@ screen confirm(message, yes_action, no_action):
                         style "button_sound_click"
                         auto "gui/button/blue_btn_%s.png"
                         action yes_action
-                    text "Yes" color "#ffffff" xalign 0.5 yoffset -100 size 48
+                    text "Yes":
+                        font "fonts/BoldFont.ttf"
+                        color "#ffffff" 
+                        xalign 0.5 
+                        yoffset -100 
+                        size 48
                 
                 vbox:
                     imagebutton:
                         style "button_sound_click"
                         auto "gui/button/red_btn_%s.png"
                         action no_action
-                    text "No" color "#ffffff" xalign 0.5 yoffset -100 size 48
+                    text "No":
+                        font "fonts/BoldFont.ttf"
+                        color "#ffffff" 
+                        xalign 0.5 
+                        yoffset -100 
+                        size 48
 
                 # textbutton _("Yes") action yes_action
                 # textbutton _("No") action no_action
@@ -1759,4 +1769,9 @@ screen exit_button(xalign=1.0, yalign=0.0):
             style "button_sound_click"
             auto "gui/button/red_btn_%s.png"
             action MainMenu()
-        text "Exit" color "#ffffff" xalign 0.5 yoffset -100 size 48
+        text "Exit":
+            font "fonts/BoldFont.ttf"
+            color "#ffffff" 
+            xalign 0.5 
+            yoffset -100 
+            size 48
