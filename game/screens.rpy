@@ -780,6 +780,7 @@ screen preferences():
                 spacing 10
                 text "Dialouge" xalign 0.5:
                     font "fonts/Roboto-Light.ttf"
+                    color "#44527d"
                     size 28
                 hbox:
                     vbox:
@@ -796,6 +797,8 @@ screen preferences():
                                 action ToggleVariable("persistent.dialogue_on", True, False)
 
                         text "On" xalign 0.5 yoffset -36:
+                            font "fonts/BoldFont.ttf"
+                            color "#44527d"
                             if persistent.dialogue_on:
                                 color "#ffffff"
                     
@@ -813,6 +816,8 @@ screen preferences():
                                 action NullAction()
 
                         text "Off" xalign 0.5 yoffset -36:
+                            font "fonts/BoldFont.ttf"
+                            color "#44527d"
                             if not persistent.dialogue_on:
                                 color "#ffffff"
             
@@ -820,6 +825,7 @@ screen preferences():
                 spacing 10
                 text "Music" xalign 0.5:
                     font "fonts/Roboto-Light.ttf"
+                    color "#44527d"
                     size 28
                 hbox:
                     vbox:
@@ -836,6 +842,8 @@ screen preferences():
                                 action ToggleVariable("persistent.music_on", True, False)
 
                         text "On" xalign 0.5 yoffset -36:
+                            font "fonts/BoldFont.ttf"
+                            color "#44527d"
                             if persistent.music_on:
                                 color "#ffffff"
                     
@@ -853,6 +861,8 @@ screen preferences():
                                 action NullAction()
 
                         text "Off" xalign 0.5 yoffset -36:
+                            font "fonts/BoldFont.ttf"
+                            color "#44527d"
                             if not persistent.music_on:
                                 color "#ffffff"
             
@@ -977,6 +987,11 @@ style slider_button_text:
 style slider_vbox:
     xsize 675
 
+style slider_text:
+    color "#44527d"
+
+style slider_label:
+    color "#44527d"
 
 ## History screen ##############################################################
 ##
