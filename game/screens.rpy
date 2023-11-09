@@ -781,7 +781,7 @@ screen preferences():
             spacing 80
             vbox:
                 spacing 10
-                text "Dialouge" xalign 0.5:
+                text "Sound" xalign 0.5:
                     font "fonts/Roboto-Light.ttf"
                     color "#44527d"
                     size 28
@@ -793,17 +793,17 @@ screen preferences():
                             hover "gui/switch_off.png"
                             selected_idle "gui/switch_on.png"
                             selected_hover "gui/switch_on.png"
-                            selected (persistent.dialogue_on)
-                            if persistent.dialogue_on:
-                                action NullAction()
+                            selected (not preferences.get_mute("sfx"))
+                            if preferences.get_mute("sfx"):
+                                action ToggleMute("sfx")
                             else:
-                                action ToggleVariable("persistent.dialogue_on", True, False)
+                                action NullAction()
 
                         text "On" xalign 0.5 yoffset -36:
                             font "fonts/BoldFont.ttf"
-                            color "#44527d"
-                            if persistent.dialogue_on:
-                                color "#ffffff"
+                            color "#ffffff"
+                            if preferences.get_mute("sfx"):
+                                color "#44527d"
                     
                     vbox:
                         imagebutton:
@@ -812,16 +812,16 @@ screen preferences():
                             hover "gui/switch_off.png"
                             selected_idle "gui/switch_on.png"
                             selected_hover "gui/switch_on.png"
-                            selected (not persistent.dialogue_on)
-                            if persistent.dialogue_on:
-                                action ToggleVariable("persistent.dialogue_on", True, False)
-                            else:
+                            selected (preferences.get_mute("sfx"))
+                            if preferences.get_mute("sfx"):
                                 action NullAction()
+                            else:
+                                action ToggleMute("sfx")
 
                         text "Off" xalign 0.5 yoffset -36:
                             font "fonts/BoldFont.ttf"
                             color "#44527d"
-                            if not persistent.dialogue_on:
+                            if preferences.get_mute("sfx"):
                                 color "#ffffff"
             
             vbox:
@@ -838,17 +838,17 @@ screen preferences():
                             hover "gui/switch_off.png"
                             selected_idle "gui/switch_on.png"
                             selected_hover "gui/switch_on.png"
-                            selected (persistent.music_on)
-                            if persistent.music_on:
-                                action NullAction()
+                            selected (not preferences.get_mute("music"))
+                            if preferences.get_mute("music"):
+                                action ToggleMute("music")
                             else:
-                                action ToggleVariable("persistent.music_on", True, False)
+                                action NullAction()
 
                         text "On" xalign 0.5 yoffset -36:
                             font "fonts/BoldFont.ttf"
-                            color "#44527d"
-                            if persistent.music_on:
-                                color "#ffffff"
+                            color "#ffffff"
+                            if preferences.get_mute("music"):
+                                color "#44527d"
                     
                     vbox:
                         imagebutton:
@@ -857,16 +857,16 @@ screen preferences():
                             hover "gui/switch_off.png"
                             selected_idle "gui/switch_on.png"
                             selected_hover "gui/switch_on.png"
-                            selected (not persistent.music_on)
-                            if persistent.music_on:
-                                action ToggleVariable("persistent.music_on", True, False)
-                            else:
+                            selected (preferences.get_mute("music"))
+                            if preferences.get_mute("music"):
                                 action NullAction()
+                            else:
+                                action ToggleMute("music")
 
                         text "Off" xalign 0.5 yoffset -36:
                             font "fonts/BoldFont.ttf"
                             color "#44527d"
-                            if not persistent.music_on:
+                            if preferences.get_mute("music"):
                                 color "#ffffff"
             
 
