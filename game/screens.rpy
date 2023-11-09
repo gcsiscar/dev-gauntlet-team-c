@@ -1769,10 +1769,16 @@ screen settings_button(xalign=1.0, yalign=1.0):
 
 screen settings_icon(xalign=1.0, yalign=1.0):
     $ s = 64
+    $ x = xalign
+    $ y = yalign
     image "gui/settings_icon.png":
         align (xalign, yalign)
         size (s, s)
-        offset (-110, -50)
+        # for top right
+        if x == 1.0 and y == 0.0:
+            offset (-110, 50)
+        else:
+            offset (-110, -50)
 
 screen exit_button(xalign=1.0, yalign=0.0):
     vbox:
