@@ -34,6 +34,26 @@ define c = Character("Clara", who_style="clara_char_name", ctc="ctc_blink", ctc_
 define uf = Character("Unknown Figure", ctc="ctc_blink", ctc_position="fixed")
 define dr = Character("Doctor", who_style="dr_char_name", ctc="ctc_blink", ctc_position="fixed")
 
+screen splash:
+    add Solid("#fff")
+    vbox:
+        align (0.5, 0.4)
+        add "splash_logo":
+            size (600, 600)
+        text "Team C" size 72 font "fonts/BoldFont.ttf" color "#000" xalign 0.5
+
+label splashscreen:
+    scene black
+    with Pause(1)
+
+    show screen splash with dissolve
+    with Pause(2)
+
+    hide screen splash with dissolve
+    with Pause(1)
+
+    return 
+
 label start:
     play music "beach.ogg" fadeout 1.0 fadein 1.0 volume 0.25
     show screen settings_button(xalign=1.0, yalign=0.0)
