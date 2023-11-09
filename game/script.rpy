@@ -14,9 +14,19 @@ image ctc_blink:
     linear 0.75 alpha 0.0
     repeat
 
-define j = Character("James", ctc="ctc_blink", ctc_position="fixed")
-define jv = Character("James (Inside Voice)", color=text_light,ctc="ctc_blink", ctc_position="fixed")
-define c = Character("Clara", ctc="ctc_blink", ctc_position="fixed")
+style char_name:
+    color "#ffffff"
+    font "fonts/BoldFont.ttf"
+    size 50
+    outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
+
+style clara_char_name is char_name:
+    color "#eaaad3"
+
+
+define j = Character("James", who_style="char_name", ctc="ctc_blink", ctc_position="fixed")
+define jv = Character("James (Inside Voice)", who_style="char_name",ctc="ctc_blink", ctc_position="fixed")
+define c = Character("Clara", who_style="clara_char_name", ctc="ctc_blink", ctc_position="fixed")
 define uf = Character("Unknown Figure", ctc="ctc_blink", ctc_position="fixed")
 define dr = Character("Doctor", ctc="ctc_blink", ctc_position="fixed")
 
@@ -100,12 +110,13 @@ label start:
 
     ## Change to black background with white text - 3 months later
     # "Time Skip"
-    scene Image("#000000")
+    show screen time_skip
     with dissolve
     pause 1.5
-
     scene bg_hospital_1
+    hide screen time_skip
 
+    pause 1.5
     jv "3 months since my heart attack, confined to a hospital room, I've had time to reflect on my condition, arrhythmia. It's a rare, potentially fatal heart disorder."
     
     jv "They said it was a miracle I'd lived so long without symptoms. My parents were devastated, even willing to sell our house for a cure that doesn't exist."
@@ -187,3 +198,10 @@ label intro_chess_game:
     jv "I felt insulted. An ordinary school. This is such a downgrade from my previous school De La Soleil University! However, I had no choice. I’m just happy to be alive. I had to accept my new reality. A clean slate isn't a bad thing. It's a fresh start, and my life isn't over. And who knows, maybe they have a chess club."
 
     return
+
+screen time_skip():
+    add Solid("#000")
+    text "3 Months Later":
+        align (0.5, 0.5)
+        font "fonts/BoldFont.ttf"
+        size 80
