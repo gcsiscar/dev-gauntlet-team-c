@@ -23,12 +23,16 @@ style char_name:
 style clara_char_name is char_name:
     color "#eaaad3"
 
+style dr_char_name is char_name:
+    color text_light
+    outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
+
 
 define j = Character("James", who_style="char_name", ctc="ctc_blink", ctc_position="fixed")
 define jv = Character("James (Inside Voice)", who_style="char_name",ctc="ctc_blink", ctc_position="fixed")
 define c = Character("Clara", who_style="clara_char_name", ctc="ctc_blink", ctc_position="fixed")
 define uf = Character("Unknown Figure", ctc="ctc_blink", ctc_position="fixed")
-define dr = Character("Doctor", ctc="ctc_blink", ctc_position="fixed")
+define dr = Character("Doctor", who_style="dr_char_name", ctc="ctc_blink", ctc_position="fixed")
 
 label start:
     play music "beach.ogg" fadeout 1.0 fadein 1.0 volume 0.25
@@ -145,34 +149,39 @@ label start:
 label intro_chess_game:
     # board notation
     $ fen = STARTING_FEN
-    $ STOCKFISH_ENGINE = chess.engine.SimpleEngine.popen_uci(STOCKFISH, startupinfo=STARTUPINFO)
 
-    # window hide
-    $ quick_menu = False
+    if config.developer:
+        call screen intro_chess(fen, player_color=None, depth=0)
+    
+    else:
+        $ STOCKFISH_ENGINE = chess.engine.SimpleEngine.popen_uci(STOCKFISH, startupinfo=STARTUPINFO)
+        # window hide
+        $ quick_menu = False
 
-    # # avoid rolling back and losing chess game state
-    $ renpy.block_rollback()
+        # avoid rolling back and losing chess game state
+        $ renpy.block_rollback()
 
-    # # disable Esc key menu to prevent the player from saving the game
-    $ _game_menu_screen = None
+        # # disable Esc key menu to prevent the player from saving the game
+        $ _game_menu_screen = None
 
-    # call screen chess(fen, player_color=chess.WHITE, depth=-1)
-    call screen chess(fen, player_color=None, depth=0)
+        # call screen chess(fen, player_color=chess.WHITE, depth=-1)
+        call screen intro_chess(fen, player_color=chess.WHITE, depth=0)
 
-    # re-enable the Esc key menu
-    $ _game_menu_screen = 'save'
+        # re-enable the Esc key menu
+        $ _game_menu_screen = 'save'
 
-    # # avoid rolling back and entering the chess game again
-    $ renpy.block_rollback()
+        # avoid rolling back and entering the chess game again
+        $ renpy.block_rollback()
 
-    # # restore rollback from this point on
-    $ renpy.checkpoint()
+        # restore rollback from this point on
+        $ renpy.checkpoint()
 
-    # kill stockfish engine
-    $ quit_stockfish()
+        # kill stockfish engine
+        $ quit_stockfish()
 
-    $ quick_menu = True
-    # window show
+        # window show
+        $ quick_menu = True
+        
     jv "At first, I was just moving the pieces without any strategy."
     
     jv "But as days turned into weeks, I began to see patterns, strategies."
@@ -195,9 +204,84 @@ label intro_chess_game:
     
     jv "My parents have arranged a transfer to Central Iloilo University, an ordinary university with low barriers of entry. Apparently, they accept anybody there."
 
-    jv "I felt insulted. An ordinary school. This is such a downgrade from my previous school De La Soleil University! However, I had no choice. I’m just happy to be alive. I had to accept my new reality. A clean slate isn't a bad thing. It's a fresh start, and my life isn't over. And who knows, maybe they have a chess club."
+    jv "I felt insulted. An ordinary school. This is such a downgrade from my previous school De La Soleil University!"
+
+    jv "However, I had no choice. I’m just happy to be alive. I had to accept my new reality. A clean slate isn't a bad thing. It's a fresh start, and my life isn't over."
+
+    jv "And who knows, maybe they have a chess club."
 
     return
+
+screen intro_chess(fen, player_color, depth):
+    modal True
+
+    default hover_displayable = HoverDisplayable()
+    default chess_displayable = ChessDisplayable(
+        fen=fen, 
+        player_color=player_color, 
+        depth=depth
+        )
+    
+    add "bg_hospital_3"
+
+    # center bottom
+    fixed xpos 600 ypos 920:
+        hbox:
+            spacing 40
+            hbox spacing 5:
+                text 'Resign' color COLOR_WHITE yalign 0.5
+                textbutton '⚐':
+                    action [Confirm('Would you like to resign?', 
+                        yes=[
+                        Play('sound', AUDIO_DRAW),
+                        # if the current player resigns, the winner will be the opposite side
+                        Return(not chess_displayable.whose_turn)
+                        ])]
+                    style 'control_button' yalign 0.5
+
+            hbox spacing 5:
+                text 'Undo move' color COLOR_WHITE yalign 0.5
+                textbutton '⟲':
+                    action [Function(chess_displayable.undo_move)]
+                    style 'control_button' yalign 0.5
+
+            hbox spacing 5:
+                text 'Flip board view' color COLOR_WHITE yalign 0.5
+                textbutton '↑↓':
+                    action [Play('sound', AUDIO_FLIP_BOARD),
+                    ToggleField(chess_displayable, 'bottom_color'),
+                    SetField(chess_displayable, 'has_flipped_board', True)]
+                    style 'control_button' yalign 0.5
+
+    # middle panel for chess displayable
+    fixed xpos 600 ypos 180:
+        add Image(IMG_CHESSBOARD)
+        add chess_displayable
+        add hover_displayable # hover loc over chesspieces
+        if chess_displayable.game_status == CHECKMATE:
+            # use a timer so the player can see the screen once again
+            timer 4.0 action [
+            Return(chess_displayable.winner)
+            ]
+        elif chess_displayable.game_status == STALEMATE:
+            timer 4.0 action [
+            Return(DRAW)
+            ]
+    
+
+    # right panel for promotion selection
+    showif chess_displayable.show_promotion_ui:
+        text 'Select promotion piece type' xpos 1010 ypos 180 color COLOR_WHITE size 18
+        vbox xalign 0.9 yalign 0.5 spacing 20:
+            null height 40
+            textbutton '♜':
+                action SetField(chess_displayable, 'promotion', 'r') style 'promotion_piece'
+            textbutton '♝':
+                action SetField(chess_displayable, 'promotion', 'b') style 'promotion_piece'
+            textbutton '♞':
+                action SetField(chess_displayable, 'promotion', 'n') style 'promotion_piece'
+            textbutton '♛':
+                action SetField(chess_displayable, 'promotion', 'q') style 'promotion_piece'
 
 screen time_skip():
     add Solid("#000")
