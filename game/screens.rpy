@@ -333,6 +333,7 @@ screen navigation():
                     yoffset -80
 
         use settings_button()
+        use quit_button()
 
     if not main_menu:
         textbutton _("Main Menu"):
@@ -1813,3 +1814,18 @@ screen full_screen_button(xalign=0.0, yalign=1.0):
                 yalign 0.5
                 size (52, 52)
                 xoffset -168
+
+screen quit_button(xalign=0.0, yalign=1.0):
+    hbox:
+        align (xalign, yalign)
+        imagebutton:
+            style "button_sound_click"
+            auto "gui/button/red_btn_%s.png"
+            action Quit(confirm=True)
+        text "Quit":
+            font "fonts/BoldFont.ttf"
+            color "#ffffff" 
+            yalign 0.5
+            xoffset -190
+            yoffset 5
+            size 48
