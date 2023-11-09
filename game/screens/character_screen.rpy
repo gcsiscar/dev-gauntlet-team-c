@@ -44,6 +44,9 @@ screen character_details(name="???",char_image="cg_unlocked"):
                     vbox:
                         text "[i]" font "fonts/BoldFont.ttf" color gui.my_color
                         add "large_text_container"
+                vbox:
+                    textbutton "Challenge":
+                        action [Hide("character_details"), Jump("freeplay_chess_game")]
 
 screen character_screen():
     tag menu
@@ -98,7 +101,11 @@ screen character_screen():
                     imagebutton:
                         auto "character_unlocked_%s.png" 
                         selected_idle "character_unlocked_hover"
-                        action [SetVariable("char_selected_loc", idx), SelectedIf(char_selected_loc == idx), Hide("character_details"), Show("character_details", name=name)]
+                        action [
+                            SetVariable("char_selected_loc", idx),
+                            SelectedIf(char_selected_loc == idx),
+                            Show("character_details", name=name)
+                        ]
                     text "[name]" align (0.5, 1.0) yoffset 24 font "fonts/BoldFont.ttf" color gui.my_color
                     add "cg_unlocked":
                         align (0.5, 0.5)

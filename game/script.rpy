@@ -239,7 +239,15 @@ label intro_chess_game:
 
     return
 
-screen intro_chess(fen, player_color, depth):
+label freeplay_chess_game:
+    # board notation
+    $ fen = STARTING_FEN
+
+    call screen intro_chess(fen, player_color=None, depth=0, background="bg_freeplay_1")
+
+    call screen main_menu
+
+screen intro_chess(fen, player_color, depth, background="bg_hospital_3"):
     modal True
 
     default hover_displayable = HoverDisplayable()
@@ -247,9 +255,9 @@ screen intro_chess(fen, player_color, depth):
         fen=fen, 
         player_color=player_color, 
         depth=depth
-        )
+    )
     
-    add "bg_hospital_3"
+    add background
 
     # center bottom
     fixed xpos 600 ypos 920:
@@ -258,12 +266,16 @@ screen intro_chess(fen, player_color, depth):
             hbox spacing 5:
                 text 'Resign' color COLOR_WHITE yalign 0.5
                 textbutton '⚐':
-                    action [Confirm('Would you like to resign?', 
-                        yes=[
-                        Play('sound', AUDIO_DRAW),
-                        # if the current player resigns, the winner will be the opposite side
-                        Return(not chess_displayable.whose_turn)
-                        ])]
+                    action [
+                        Confirm(
+                            'Would you like to resign?', 
+                            yes=[
+                                Play('sound', AUDIO_DRAW),
+                                # if the current player resigns, the winner will be the opposite side
+                                Return(not chess_displayable.whose_turn)
+                            ]
+                        )
+                    ]
                     style 'control_button' yalign 0.5
 
             hbox spacing 5:
