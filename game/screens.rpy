@@ -1758,11 +1758,21 @@ style slider_slider:
 
 ### Utils Screen
 screen settings_button(xalign=1.0, yalign=1.0):
-    imagebutton:
+    vbox:
         align (xalign, yalign)
-        style "button_sound_click"
-        idle "gui/button/settings_idle.png"
-        action [Hide("character_details"),ShowMenu("preferences")]
+        imagebutton:
+            style "button_sound_click"
+            auto "gui/button/green_btn_%s.png"
+            action [Hide("character_details"),ShowMenu("preferences")]
+        
+    use settings_icon(xalign, yalign)
+
+screen settings_icon(xalign=1.0, yalign=1.0):
+    $ s = 64
+    image "gui/settings_icon.png":
+        align (xalign, yalign)
+        size (s, s)
+        offset (-110, -50)
 
 screen exit_button(xalign=1.0, yalign=0.0):
     vbox:
