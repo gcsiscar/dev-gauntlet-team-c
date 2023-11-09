@@ -26,11 +26,11 @@ screen character_details(name="???",char_image="cg_unlocked"):
             spacing 16
             vbox:
                 xalign 1.0
-                text "Character Name"
-                text "[name]" font "fonts/Roboto-Regular.ttf" xoffset 8
+                text "Character Name" font "fonts/BoldFont.ttf" color gui.my_color
+                text "[name]" font "fonts/Roboto-Regular.ttf" xoffset 8 color gui.my_color
                 add "small_text_container":
                     offset(0,-32)
-                text "Friendship Level" yoffset -16
+                text "Friendship Level" yoffset -16 font "fonts/BoldFont.ttf" color gui.my_color
                 hbox:
                     for i in range(0, 5):
                         add "blue_heart":
@@ -42,7 +42,7 @@ screen character_details(name="???",char_image="cg_unlocked"):
                 spacing 24
                 for i in ["Likes", "Dislikes", "Notes"]:
                     vbox:
-                        text "[i]"
+                        text "[i]" font "fonts/BoldFont.ttf" color gui.my_color
                         add "large_text_container"
 
 screen character_screen():
@@ -50,7 +50,7 @@ screen character_screen():
 
     add gui.game_menu_background
 
-    text "Characters" align (0.5, 0.06) size 48 color "#ebabd4"
+    text "Characters" align (0.5, 0.06) size 48 color "#ebabd4" font "fonts/BoldFont.ttf"
 
     vbox xalign 0.0 yalign 0.0:
         imagebutton idle "gui/button/back_idle.png" action [Return(), Hide("character_details")]
@@ -77,7 +77,7 @@ screen character_screen():
         # the vpgrid.
         # xalign 0.5
         $ characters = [
-            { "name": "Rosalyn", "unlocked": persistent.rosalyn_unlocked },
+            { "name": "Rosalyn", "unlocked": True },
             { "name": "???", "unlocked": False },
             { "name": "???", "unlocked": False },
             { "name": "???", "unlocked": False },
@@ -100,13 +100,13 @@ screen character_screen():
                         auto "character_unlocked_%s.png" 
                         selected_idle "character_unlocked_hover"
                         action [SetVariable("char_selected_loc", idx), SelectedIf(char_selected_loc == idx), Hide("character_details"), Show("character_details", name=name)]
-                    text "[name]" align (0.5, 1.0) yoffset 24
+                    text "[name]" align (0.5, 1.0) yoffset 24 font "fonts/BoldFont.ttf" color gui.my_color
                     add "cg_unlocked":
                         align (0.5, 0.5)
                         yoffset 5
                 else:
                     imagebutton idle "character_locked_background.png" action NullAction()
-                    text "???" align (0.5, 1.0) yoffset 24
+                    text "???" align (0.5, 1.0) yoffset 24 font "fonts/BoldFont.ttf" color gui.my_color
                     add "cg_locked":
                         align (0.5, 0.5)
                         yoffset 5
