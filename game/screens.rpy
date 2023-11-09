@@ -745,6 +745,8 @@ screen preferences():
     use settings_button()
     if not main_menu:
         use exit_button()
+    
+    use full_screen_button()
 
     vbox:
         align (0.5, 0.5)
@@ -1775,3 +1777,23 @@ screen exit_button(xalign=1.0, yalign=0.0):
             xalign 0.5 
             yoffset -100 
             size 48
+
+screen full_screen_button(xalign=0.0, yalign=1.0):
+    hbox:
+        align (xalign, yalign)
+        if preferences.fullscreen:
+            imagebutton:
+                auto "gui/button/blue_btn_%s.png"
+                action Preference("display", "window")
+            add "gui/window_screen.png":
+                yalign 0.5
+                # size (52, 52)
+                xoffset -168
+        else:
+            imagebutton:
+                auto "gui/button/blue_btn_%s.png"
+                action Preference("display", "fullscreen")
+            add "gui/full_screen.png":
+                yalign 0.5
+                size (52, 52)
+                xoffset -168
