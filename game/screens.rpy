@@ -1800,6 +1800,7 @@ screen full_screen_button(xalign=0.0, yalign=1.0):
         align (xalign, yalign)
         if preferences.fullscreen:
             imagebutton:
+                style "button_sound_click"
                 auto "gui/button/blue_btn_%s.png"
                 action Preference("display", "window")
             add "gui/window_screen.png":
@@ -1808,6 +1809,7 @@ screen full_screen_button(xalign=0.0, yalign=1.0):
                 xoffset -168
         else:
             imagebutton:
+                style "button_sound_click"
                 auto "gui/button/blue_btn_%s.png"
                 action Preference("display", "fullscreen")
             add "gui/full_screen.png":
