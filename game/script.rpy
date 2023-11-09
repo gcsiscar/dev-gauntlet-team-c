@@ -7,7 +7,7 @@ define text_light = "#7FA8D5"
 image ctc_blink:
     "gui/button/next_button_idle.png"
     xalign 1.0 
-    yalign 0.8
+    yalign 1.0
     yoffset -30
     xoffset -80
     linear 0.75 alpha 1.0
@@ -22,7 +22,7 @@ define dr = Character("Doctor", ctc="ctc_blink", ctc_position="fixed")
 
 label start:
     play music "beach.ogg" fadeout 1.0 fadein 1.0 volume 0.25
-    show screen settings_button
+    show screen settings_button(xalign=1.0, yalign=0.0)
     scene bg_beach_night_1
 
     jv "A gentle breeze causes the palm fronds overhead to rustle, sounding like nature's own bamboo wind chimes. This is a popular retreat for couples in the summer."
