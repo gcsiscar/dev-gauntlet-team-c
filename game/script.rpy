@@ -93,6 +93,10 @@ label start:
             pass
     
     stop music 
+
+    # play audio ["ear_ring.mp3", "heart-beat.ogg"]
+    play music "ear_ring.mp3" volume 0.3 loop 
+    play sound "heart-beat.ogg" loop
     
     jv "I stand there, motionless, save for my pounding heart. I want to say something in reply, but my vocal cords feel like they've been stretched beyond the breaking point."
 
@@ -103,6 +107,9 @@ label start:
     c "... James?"
 
     jv "My body seizes up, every muscle constricting, and my eyes squeeze shut against a surge of pain, sending me tumbling to the ground."
+
+    stop music
+    stop sound
 
     scene bg_beach_night_3
 
