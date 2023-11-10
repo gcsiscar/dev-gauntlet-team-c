@@ -56,8 +56,12 @@ label splashscreen:
 
 label start:
     play music "beach.ogg" fadeout 1.0 fadein 1.0 
-    show screen settings_button(xalign=1.0, yalign=0.0)
+    show screen intro with dissolve
+    pause 3
+    
     scene bg_beach_night_1
+    hide screen intro with dissolve
+    show screen settings_button(xalign=1.0, yalign=0.0)
 
     jv "A gentle breeze causes the palm fronds overhead to rustle, sounding like nature's own bamboo wind chimes. This is a popular retreat for couples in the summer."
 
@@ -112,11 +116,15 @@ label start:
         "I'd love to":
             pass
     
+    scene black
     stop music 
 
     # play audio ["ear_ring.mp3", "heart-beat.ogg"]
     play music "ear_ring.mp3" volume 0.3 loop 
     play sound "heart-beat.ogg" loop
+
+    pause 2.0
+    scene bg_beach_night_4 with dissolve
     
     jv "I stand there, motionless, save for my pounding heart. I want to say something in reply, but my vocal cords feel like they've been stretched beyond the breaking point."
 
@@ -139,8 +147,7 @@ label start:
 
     jv "The last things I remember before slipping away are the sounds of Clara screaming for help and the incessant rustle of the palm fronds above..."
 
-    ## Change to black background with white text - 3 months later
-    # "Time Skip"
+    # Time Skip
     show screen time_skip with dissolve
     pause 1.5
     
@@ -209,6 +216,9 @@ label intro_chess_game:
         # window show
         $ quick_menu = True
         
+
+    scene bg_hospital_3
+
     jv "At first, I was just moving the pieces without any strategy."
     
     jv "But as days turned into weeks, I began to see patterns, strategies."
@@ -217,17 +227,26 @@ label intro_chess_game:
     
     jv "It was a small thing, but it gave me a sense of control that was missing from my life."
 
-    scene bg_hospital_3
+    # Time Skip
+    show screen time_skip_hospital with dissolve
+    pause 1.5
+    
+    scene bg_hospital_1
+    hide screen time_skip_hospital with dissolve
+
+    pause 1.5
 
     jv "One day, the doctor, with my parents present, announced I could go home. The list of lifelong medications was overwhelming."
 
     jv "Then came the bombshell - I couldn't return to my old school."
 
+    scene bg_hospital_4
+
     dr "Your parents have decided to transfer your treatment to their hometown, Iloilo City."
     
     dr "They have several great heart centers there that can manage your condition. Better living conditions and a slow paced life might be good for you!"
 
-    jv "I was shocked. What am I going to do with my ???."
+    jv "I was shocked. What am I going to do without the relentless pulse of the city, the neon-lit nights, and the symphony of urban chaos that I've grown to love?"
     
     jv "My parents have arranged a transfer to Central Iloilo University, an ordinary university with low barriers of entry. Apparently, they accept anybody there."
 
@@ -236,6 +255,15 @@ label intro_chess_game:
     jv "However, I had no choice. I’m just happy to be alive. I had to accept my new reality. A clean slate isn't a bad thing. It's a fresh start, and my life isn't over."
 
     jv "And who knows, maybe they have a chess club."
+
+    hide screen settings_button with dissolve
+
+    scene black
+    show screen end_intro with dissolve
+    pause 1.5
+
+    hide screen end_intro with dissolve
+    pause 1.5
 
     return
 
@@ -328,3 +356,39 @@ screen time_skip():
         align (0.5, 0.5)
         font "fonts/BoldFont.ttf"
         size 80
+
+
+screen time_skip_hospital():
+    add Solid("#000")
+    text "A few days later":
+        align (0.5, 0.5)
+        font "fonts/BoldFont.ttf"
+        size 80
+
+screen intro():
+    add Solid("#000")
+    vbox:
+        align (0.5, 0.5)
+        spacing 10
+        text "- Introduction -":
+            align (0.5, 0.5)
+            font "fonts/BoldFont.ttf"
+            size 24
+        text "Whispers on the twilight shores":
+            align (0.5, 0.5)
+            font "fonts/BoldFont.ttf"
+            size 60
+
+screen end_intro():
+    add Solid("#000")
+    vbox:
+        align (0.5, 0.5)
+        spacing 10
+        text "- End -":
+            align (0.5, 0.5)
+            font "fonts/BoldFont.ttf"
+            size 24
+        text "To be continued":
+            align (0.5, 0.5)
+            font "fonts/BoldFont.ttf"
+            size 60
