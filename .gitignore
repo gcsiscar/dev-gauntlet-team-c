@@ -1,6 +1,10 @@
 errors.txt
 log.txt
 traceback.txt
+shaders.txt
+
 .vscode
 game/saves
 game/cache
+
+game/**/*.rpyc

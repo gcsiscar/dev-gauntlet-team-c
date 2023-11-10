@@ -23,6 +23,7 @@ define config.check_conflicting_properties = True
 ## Colors ######################################################################
 ##
 ## The colors of text in the interface.
+define gui.my_color = "#44527d"
 
 ## An accent color used throughout the interface to label and highlight text.
 define gui.accent_color = '#003366'
@@ -50,14 +51,15 @@ define gui.muted_color = '#6684a3'
 define gui.hover_muted_color = '#99adc1'
 
 ## The colors used for dialogue and menu choice text.
-define gui.text_color = '#44527d'
+# define gui.text_color = '#44527d'
+define gui.text_color = '#ffffff'
 define gui.interface_text_color = '#404040'
 
 
 ## Fonts and Font Sizes ########################################################
 
 ## The font used for in-game text.
-define gui.text_font = "BoldFont.ttf"
+define gui.text_font = "Roboto-Regular.ttf"
 
 ## The font used for character names.
 define gui.name_text_font = "BoldFont.ttf"
@@ -101,7 +103,8 @@ define gui.textbox_height = 237
 
 ## The placement of the textbox vertically on the screen. 0.0 is the top, 0.5 is
 ## center, and 1.0 is the bottom.
-define gui.textbox_yalign = 0.78
+# define gui.textbox_yalign = 0.78 #Old UI
+define gui.textbox_yalign = 1.0
 
 
 ## The placement of the speaking character's name, relative to the textbox.
@@ -212,7 +215,8 @@ define gui.choice_button_text_font = gui.text_font
 # define gui.choice_button_text_size = gui.text_size
 define gui.choice_button_text_size = 32
 define gui.choice_button_text_xalign = 0.5
-define gui.choice_button_text_idle_color = '#44527d'
+# define gui.choice_button_text_idle_color = '#44527d'
+define gui.choice_button_text_idle_color = '#ffffff'
 define gui.choice_button_text_hover_color = "#ffffff"
 define gui.choice_button_text_insensitive_color = '#7070707f'
 
@@ -288,7 +292,7 @@ define gui.main_menu_text_xalign = 1.0
 define gui.frame_borders = Borders(6, 6, 6, 6)
 
 ## The frame that is used as part of the confirm screen.
-define gui.confirm_frame_borders = Borders(60, 60, 60, 60)
+define gui.confirm_frame_borders = Borders(120, 100, 120, 20)
 
 ## The frame that is used as part of the skip screen.
 define gui.skip_frame_borders = Borders(24, 8, 75, 8)

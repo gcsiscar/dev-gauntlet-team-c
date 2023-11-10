@@ -8,6 +8,8 @@ init offset = -1
 ################################################################################
 ## Styles
 ################################################################################
+style button_sound_click:
+    activate_sound "audio/ui/button_click.ogg"
 
 style default:
     properties gui.text_properties()
@@ -218,11 +220,11 @@ style choice_button is button
 style choice_button_text is button_text
 
 style choice_vbox:
-    # xalign 0.5
-    # ypos 405
-    # yanchor 0.5
-    xpos 80
-    yalign 0.925
+    xalign 0.5
+    ypos 405
+    yanchor 0.5
+    # xpos 80
+    # yalign 0.925
 
     spacing gui.choice_spacing
 
@@ -293,66 +295,55 @@ style custom_main_menu_title:
     color "#ebaad4"
 
 screen navigation():
-
+    # Main Menu layout
     $ mm = renpy.get_screen("main_menu")
-
     if mm:
-        text """BE CAREFUL WITH 
-        MY HEART!""" style "custom_main_menu_title"  at transform:
+        add "splash_logo":
+            size (350, 350)
+            align (0.4, 0.45)
+            offset (20, -40)
+        text """Castling 
+        {color=#75abd7}Hearts!{/color}""" style "custom_main_menu_title" at transform:
             align (0.5, 0.45)
+        vbox:
+            spacing -60
+            align (0.5, 0.8)
+            yoffset 24
+            vbox:
+                imagebutton:
+                    auto "gui/button/main_menu_%s.png"
+                    activate_sound "audio/ui/button_click.ogg"
+                    action Start()
+                label _("New Game"):
+                    xalign 0.5
+                    yoffset -80
 
-    vbox:
-        style_prefix "navigation"
+            vbox:
+                imagebutton:
+                    auto "gui/button/main_menu_%s.png"
+                    activate_sound "audio/ui/button_click.ogg"
+                    action ShowMenu("load")
+                label _("Load Game"):
+                    xalign 0.5
+                    yoffset -80
 
-        spacing gui.navigation_spacing
+            vbox:
+                imagebutton:
+                    auto "gui/button/main_menu_%s.png"
+                    activate_sound "audio/ui/button_click.ogg"
+                    action ShowMenu("character_screen")
+                label _("Characters"):
+                    xalign 0.5
+                    yoffset -80
 
-        if mm:
-            xcenter 0.5
-            yalign 0.78
-            textbutton _("NEW GAME") action Start() style "custom_button_text" text_style "custom_main_menu_text"
+        use settings_button()
+        use quit_button()
 
-            textbutton _("LOAD GAME") action ShowMenu("load") style "custom_button_text" text_style "custom_main_menu_text"
-
-            textbutton _("CHARACTERS") action ShowMenu("about") style "custom_button_text" text_style "custom_main_menu_text"
-        
-        else:
-            xpos gui.navigation_xpos
+    if not main_menu:
+        textbutton _("Main Menu"):
             yalign 0.5
-            textbutton _("Main Menu") action MainMenu()
-
-    if mm:
-        vbox xalign 1.0 yalign 1.0:
-            imagebutton idle "gui/button/settings_idle.png" action ShowMenu("preferences") 
-        # else:
-
-        #     textbutton _("History") action ShowMenu("history")
-
-        #     textbutton _("Save") action ShowMenu("save")
-
-
-        # textbutton _("Preferences") action ShowMenu("preferences")
-
-        # if _in_replay:
-
-        #     textbutton _("End Replay") action EndReplay(confirm=True)
-
-        # elif not main_menu:
-
-        #     textbutton _("Main Menu") action MainMenu()
-
-        # textbutton _("About") action ShowMenu("about")
-
-        # if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-
-        #     ## Help isn't necessary or relevant to mobile devices.
-        #     textbutton _("Help") action ShowMenu("help")
-
-        # if renpy.variant("pc"):
-
-        #     ## The quit button is banned on iOS and unnecessary on Android and
-        #     ## Web.
-        #     textbutton _("Quit") action Quit(confirm=not main_menu)
-
+            xpos 60
+            action MainMenu()
 
 style navigation_button is gui_button
 style navigation_button_text is gui_button_text
@@ -745,86 +736,191 @@ style slot_button_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#preferences
 
+default persistent.music_on = False
+default persistent.dialogue_on = False
 screen preferences():
 
     tag menu
 
-    use game_menu(_("Preferences"), scroll="viewport"):
+    add gui.game_menu_background
 
-        vbox:
+    add "gui/settings_background.png":
+        align (0.5, 0.5)
+    
+    use settings_button()
+    if not main_menu:
+        use exit_button()
+    
+    use full_screen_button()
 
-            hbox:
-                box_wrap True
+    vbox:
+        align (0.5, 0.5)
+        add "gui/master_volume_container.png"
+        add "gui/sound_settings_container.png"
 
-                if renpy.variant("pc") or renpy.variant("web"):
+    vbox xalign 0.0 yalign 0.0:
+        imagebutton idle "gui/button/back_idle.png" action Return()
+    
+    
+    # Master Volume
+    vbox:
+        align (0.5, 0.2)
+        # offset (30, 5)
+        style_prefix "slider"
+        box_wrap True
+        label _("Master Volume") xalign 0.5 yoffset -20
+        hbox:
+            offset (23, 3)
+            bar value Preference("main volume")
+            $ number = int(preferences.get_mixer('main')*100)
+            label _("[number]%") offset (32, -8) text_style "custom_slider_label"
+    
+    label _("Sound Settings") align (0.5, 0.3) yoffset 40
 
+    frame:
+        align(0.5, 0.4)
+        yoffset 40
+        background None
+        hbox:
+            spacing 80
+            vbox:
+                spacing 10
+                text "Sound" xalign 0.5:
+                    font "fonts/Roboto-Light.ttf"
+                    color "#44527d"
+                    size 28
+                hbox:
                     vbox:
-                        style_prefix "radio"
-                        label _("Display")
-                        textbutton _("Window") action Preference("display", "window")
-                        textbutton _("Fullscreen") action Preference("display", "fullscreen")
+                        imagebutton:
+                            focus_mask True
+                            idle "gui/switch_off.png"
+                            hover "gui/switch_off.png"
+                            selected_idle "gui/switch_on.png"
+                            selected_hover "gui/switch_on.png"
+                            selected (not preferences.get_mute("sfx"))
+                            if preferences.get_mute("sfx"):
+                                action ToggleMute("sfx")
+                            else:
+                                action NullAction()
 
-                vbox:
-                    style_prefix "check"
-                    label _("Skip")
-                    textbutton _("Unseen Text") action Preference("skip", "toggle")
-                    textbutton _("After Choices") action Preference("after choices", "toggle")
-                    textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
+                        text "On" xalign 0.5 yoffset -36:
+                            font "fonts/BoldFont.ttf"
+                            color "#ffffff"
+                            if preferences.get_mute("sfx"):
+                                color "#44527d"
+                    
+                    vbox:
+                        imagebutton:
+                            focus_mask True
+                            idle "gui/switch_off.png"
+                            hover "gui/switch_off.png"
+                            selected_idle "gui/switch_on.png"
+                            selected_hover "gui/switch_on.png"
+                            selected (preferences.get_mute("sfx"))
+                            if preferences.get_mute("sfx"):
+                                action NullAction()
+                            else:
+                                action ToggleMute("sfx")
 
-                ## Additional vboxes of type "radio_pref" or "check_pref" can be
-                ## added here, to add additional creator-defined preferences.
+                        text "Off" xalign 0.5 yoffset -36:
+                            font "fonts/BoldFont.ttf"
+                            color "#44527d"
+                            if preferences.get_mute("sfx"):
+                                color "#ffffff"
+            
+            vbox:
+                spacing 10
+                text "Music" xalign 0.5:
+                    font "fonts/Roboto-Light.ttf"
+                    color "#44527d"
+                    size 28
+                hbox:
+                    vbox:
+                        imagebutton:
+                            focus_mask True
+                            idle "gui/switch_off.png"
+                            hover "gui/switch_off.png"
+                            selected_idle "gui/switch_on.png"
+                            selected_hover "gui/switch_on.png"
+                            selected (not preferences.get_mute("music"))
+                            if preferences.get_mute("music"):
+                                action ToggleMute("music")
+                            else:
+                                action NullAction()
 
-            null height (4 * gui.pref_spacing)
+                        text "On" xalign 0.5 yoffset -36:
+                            font "fonts/BoldFont.ttf"
+                            color "#ffffff"
+                            if preferences.get_mute("music"):
+                                color "#44527d"
+                    
+                    vbox:
+                        imagebutton:
+                            focus_mask True
+                            idle "gui/switch_off.png"
+                            hover "gui/switch_off.png"
+                            selected_idle "gui/switch_on.png"
+                            selected_hover "gui/switch_on.png"
+                            selected (preferences.get_mute("music"))
+                            if preferences.get_mute("music"):
+                                action NullAction()
+                            else:
+                                action ToggleMute("music")
 
-            hbox:
-                style_prefix "slider"
-                box_wrap True
-
-                vbox:
-
-                    label _("Text Speed")
-
-                    bar value Preference("text speed")
-
-                    label _("Auto-Forward Time")
-
-                    bar value Preference("auto-forward time")
-
-                vbox:
-
-                    if config.has_music:
-                        label _("Music Volume")
-
-                        hbox:
-                            bar value Preference("music volume")
-
-                    if config.has_sound:
-
-                        label _("Sound Volume")
-
-                        hbox:
-                            bar value Preference("sound volume")
-
-                            if config.sample_sound:
-                                textbutton _("Test") action Play("sound", config.sample_sound)
+                        text "Off" xalign 0.5 yoffset -36:
+                            font "fonts/BoldFont.ttf"
+                            color "#44527d"
+                            if preferences.get_mute("music"):
+                                color "#ffffff"
+            
 
 
-                    if config.has_voice:
-                        label _("Voice Volume")
+    # Sound Effect Volume
+    vbox:
+        align (0.5, 0.6)
+        yoffset -50
+        style_prefix "slider"
+        box_wrap True
+        text "Sound Effects Volume" xalign 0.5:
+            font "fonts/Roboto-Light.ttf"
+        hbox:
+            offset (23, 3)
+            bar value Preference("sound volume")
+            $ number = int(preferences.get_mixer('sfx')*100)
 
-                        hbox:
-                            bar value Preference("voice volume")
+            label _("[number]%") offset (32, -8) text_style "custom_slider_label"
+    
+    # Music Volume
+    vbox:
+        align (0.5, 0.7)
+        yoffset -50
+        style_prefix "slider"
+        box_wrap True
+        text "Music Volume" xalign 0.5:
+            font "fonts/Roboto-Light.ttf"
+        hbox:
+            offset (23, 3)
+            bar value Preference("music volume")
+            $ number = int(preferences.get_mixer('music')*100)
+            label _("[number]%") offset (32, -8) text_style "custom_slider_label"
 
-                            if config.sample_voice:
-                                textbutton _("Test") action Play("voice", config.sample_voice)
+    vbox:
+        align (0.5, 0.8)
+        yoffset -50
+        box_wrap True
+        style_prefix "slider"
+        text "Text Speed" xalign 0.5:
+            font "fonts/Roboto-Light.ttf"
+        hbox:
+            offset (23, 3)
+            bar value Preference("text speed")
+            $ number = int(preferences.text_cps)
+            label _("[number]") offset (32, -8) text_style "custom_slider_label"
 
-                    if config.has_music or config.has_sound or config.has_voice:
-                        null height gui.pref_spacing
 
-                        textbutton _("Mute All"):
-                            action Preference("all mute", "toggle")
-                            style "mute_all_button"
-
+style custom_slider_label:
+    font "fonts/Roboto-Light.ttf"
+    size 28
 
 style pref_label is gui_label
 style pref_label_text is gui_label_text
@@ -883,7 +979,9 @@ style check_button_text:
     properties gui.button_text_properties("check_button")
 
 style slider_slider:
-    xsize 525
+    xsize 532
+    thumb_offset 25
+    right_bar "gui/slider/VolumeBarEmpty.png"
 
 style slider_button:
     properties gui.button_properties("slider_button")
@@ -896,6 +994,11 @@ style slider_button_text:
 style slider_vbox:
     xsize 675
 
+style slider_text:
+    color "#44527d"
+
+style slider_label:
+    color "#44527d"
 
 ## History screen ##############################################################
 ##
@@ -1180,16 +1283,44 @@ screen confirm(message, yes_action, no_action):
             yalign .5
             spacing 45
 
+            # label _(message):
             label _(message):
                 style "confirm_prompt"
                 xalign 0.5
+                text_textalign 0.5
+                text_size 48
+                text_color "#44527d"
 
             hbox:
                 xalign 0.5
-                spacing 150
+                spacing 75
 
-                textbutton _("Yes") action yes_action
-                textbutton _("No") action no_action
+                vbox:
+                    imagebutton:
+                        style "button_sound_click"
+                        auto "gui/button/blue_btn_%s.png"
+                        action yes_action
+                    text "Yes":
+                        font "fonts/BoldFont.ttf"
+                        color "#ffffff" 
+                        xalign 0.5 
+                        yoffset -100 
+                        size 48
+                
+                vbox:
+                    imagebutton:
+                        style "button_sound_click"
+                        auto "gui/button/red_btn_%s.png"
+                        action no_action
+                    text "No":
+                        font "fonts/BoldFont.ttf"
+                        color "#ffffff" 
+                        xalign 0.5 
+                        yoffset -100 
+                        size 48
+
+                # textbutton _("Yes") action yes_action
+                # textbutton _("No") action no_action
 
     ## Right-click and escape answer "no".
     key "game_menu" action no_action
@@ -1630,6 +1761,77 @@ style slider_slider:
     variant "small"
     xsize 900
 
-## Custom Styles
-style heroine:
-    color "#eaaad3"
+### Utils Screen
+screen settings_button(xalign=1.0, yalign=1.0):
+    vbox:
+        align (xalign, yalign)
+        imagebutton:
+            style "button_sound_click"
+            auto "gui/button/green_btn_%s.png"
+            action [Hide("character_details"),ShowMenu("preferences")]
+        
+    use settings_icon(xalign, yalign)
+
+screen settings_icon(xalign=1.0, yalign=1.0):
+    $ s = 64
+    $ x = xalign
+    $ y = yalign
+    image "gui/settings_icon.png":
+        align (xalign, yalign)
+        size (s, s)
+        # for top right
+        if x == 1.0 and y == 0.0:
+            offset (-110, 50)
+        else:
+            offset (-110, -50)
+
+screen exit_button(xalign=1.0, yalign=0.0):
+    vbox:
+        align (xalign, yalign)
+        imagebutton:
+            style "button_sound_click"
+            auto "gui/button/red_btn_%s.png"
+            action MainMenu()
+        text "Exit":
+            font "fonts/BoldFont.ttf"
+            color "#ffffff" 
+            xalign 0.5 
+            yoffset -100 
+            size 48
+
+screen full_screen_button(xalign=0.0, yalign=1.0):
+    hbox:
+        align (xalign, yalign)
+        if preferences.fullscreen:
+            imagebutton:
+                style "button_sound_click"
+                auto "gui/button/blue_btn_%s.png"
+                action Preference("display", "window")
+            add "gui/window_screen.png":
+                yalign 0.5
+                # size (52, 52)
+                xoffset -168
+        else:
+            imagebutton:
+                style "button_sound_click"
+                auto "gui/button/blue_btn_%s.png"
+                action Preference("display", "fullscreen")
+            add "gui/full_screen.png":
+                yalign 0.5
+                size (52, 52)
+                xoffset -168
+
+screen quit_button(xalign=0.0, yalign=1.0):
+    hbox:
+        align (xalign, yalign)
+        imagebutton:
+            style "button_sound_click"
+            auto "gui/button/red_btn_%s.png"
+            action Quit(confirm=True)
+        text "Quit":
+            font "fonts/BoldFont.ttf"
+            color "#ffffff" 
+            yalign 0.5
+            xoffset -190
+            yoffset 5
+            size 48
