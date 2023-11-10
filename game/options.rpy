@@ -37,7 +37,7 @@ define gui.about = _p("""
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
 ## or semicolons.
 
-define build.name = "DEMO"
+define build.name = "CastlingHearts"
 
 
 ## Sounds and music ############################################################
@@ -210,4 +210,4 @@ init python:
 
 ## Enable console
 define config.console = True
-define config.developer = True
+define config.developer = True 
