@@ -37,7 +37,7 @@ define gui.about = _p("""
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
 ## or semicolons.
 
-define build.name = "DEMO"
+define build.name = "CastlingHearts"
 
 
 ## Sounds and music ############################################################
@@ -62,7 +62,7 @@ define config.has_voice = True
 ## the player is at the main menu. This file will continue playing into the
 ## game, until it is stopped or another file is played.
 
-define config.main_menu_music = "isolation.mp3"
+define config.main_menu_music = "isolation.ogg"
 
 
 ## Transitions #################################################################
@@ -210,4 +210,4 @@ init python:
 
 ## Enable console
 define config.console = True
-define config.developer = True
+define config.developer = True 
