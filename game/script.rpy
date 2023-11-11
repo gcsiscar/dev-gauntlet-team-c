@@ -34,7 +34,12 @@ define c = Character("Clara", who_style="clara_char_name", ctc="ctc_blink", ctc_
 define uf = Character("Unknown Figure", ctc="ctc_blink", ctc_position="fixed")
 define dr = Character("Doctor", who_style="dr_char_name", ctc="ctc_blink", ctc_position="fixed")
 
-screen splash:
+### Free Play
+define ria = Character("Ria", who_style="dr_char_name", ctc="ctc_blink", ctc_position="fixed")
+define ava = Character("Ava", who_style="dr_char_name", ctc="ctc_blink", ctc_position="fixed")
+define elara = Character("Elara", who_style="dr_char_name", ctc="ctc_blink", ctc_position="fixed")
+
+screen splash():
     add Solid("#fff")
     vbox:
         align (0.5, 0.4)
@@ -267,15 +272,30 @@ label intro_chess_game:
 
     return
 
-label freeplay_chess_game:
+label freeplay_chess_game(background="bg_freeplay_1", hero_name=None, hero_img=None):
+    scene image background
+    show image hero_img with dissolve
+    if hero_name == "Clara":
+        c "They say every move tells a story. Ready to create our own narrative on the chessboard?"
+    if hero_name == "Ava":
+        ava "Feeling strategic today? Care to face off in a game of chess?"
+    if hero_name == "Elara":
+        elara "Chess, the ultimate battle of wits. Think you can outwit me?"
+    if hero_name == "Ria":
+        ria "Chess is more than a game; it's a dance of strategy. Shall we dance?"
+
+    hide image hero_img with dissolve
     # board notation
     $ fen = STARTING_FEN
 
-    call screen intro_chess(fen, player_color=None, depth=0, background="bg_freeplay_1")
+    call screen intro_chess(fen, player_color=None, depth=0, background=background, hero_img=hero_img) 
+
+    # unpause music
+    $ renpy.music.set_pause(False, channel='music') 
 
     call screen main_menu
 
-screen intro_chess(fen, player_color, depth, background="bg_hospital_3"):
+screen intro_chess(fen, player_color, depth, background="bg_hospital_3", hero_img=None):
     modal True
 
     default hover_displayable = HoverDisplayable()
@@ -284,8 +304,13 @@ screen intro_chess(fen, player_color, depth, background="bg_hospital_3"):
         player_color=player_color, 
         depth=depth
     )
-    
+
     add background
+
+    if hero_img:
+        add hero_img:
+            xalign 1.0
+            yalign 0.8
 
     # center bottom
     fixed xpos 600 ypos 920:

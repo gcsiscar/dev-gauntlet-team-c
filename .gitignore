@@ -3,8 +3,11 @@ log.txt
 traceback.txt
 shaders.txt
 
-.vscode
+.vscode/**
 game/saves
 game/cache
 
 game/**/*.rpyc
+game/**/*.pyc
+
+.DS_Store
