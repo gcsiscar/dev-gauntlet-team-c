@@ -209,6 +209,7 @@ init python:
     import os
     import sys
     import pygame
+    import subprocess
     from collections import deque # track move history
 
     import_dir = os.path.join(renpy.config.gamedir, THIS_PATH, 'python-packages')
