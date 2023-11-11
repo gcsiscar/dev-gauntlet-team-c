@@ -18,20 +18,28 @@ style something:
     color gui.my_color 
     background "#B3B8CD"
 
-screen character_details(name="???", char_image="cg_unlocked", stats=DEFAULT_STATS):
-    # add "character_unlocked_idle":
-    #     align (0.8, 0.2)
+screen character_stat(stat_label="", stat_value=""):
+    hbox:
+        spacing 8
+        text stat_label:
+            font "fonts/BoldFont.ttf" 
+            color gui.my_color 
+            yalign 0.5
+        frame:
+            background "small_text_container"
+            text "{value}".format(value=stat_value):
+                font "fonts/BoldFont.ttf" 
+                color gui.my_color
+                xalign 0.5
+                yalign 0.5
 
-    # add char_image:
-    #     align (0.784, 0.236)
-    #     offset (-4, 2.8)
 
+# screen character_details(character={}):
+    # $ name, _img, stats, _unlocked = character.values()
 
-    # add "character_details_background":
-    #     align (1.0, 0.50)
-
+screen character_details(name="???", char_image="cg_unlocked", img={}, stats=DEFAULT_STATS):
     frame:
-        background Image("images/character_details_background.png")
+        background "character_details_background"
         xalign 0.5
         # yalign 0.5
         xoffset 610
@@ -47,12 +55,7 @@ screen character_details(name="???", char_image="cg_unlocked", stats=DEFAULT_STA
             vbox:
                 spacing 24
 
-                # $ logo_pathname = "squares/" + char_image if not None else "cg_unlocked"
-                # imagebutton:
-                #     auto logo_pathname + "_%s.png"
-                #     # ypos
-                #     at transform:
-                #         zoom 0.5
+                # TODO: Display character logo here
 
                 vbox:
                     text "Character Name" font "fonts/BoldFont.ttf" color gui.my_color
@@ -67,47 +70,12 @@ screen character_details(name="???", char_image="cg_unlocked", stats=DEFAULT_STA
                                 size (40, 40)
                                 yoffset -12
 
-                hbox:
-                    spacing 8
-                    text "ELO":
-                        font "fonts/BoldFont.ttf" 
-                        color gui.my_color 
-                        yalign 0.5
-                    frame:
-                        background "small_text_container"
-                        text "{value}".format(value=stats["elo"]):
-                            font "fonts/BoldFont.ttf" 
-                            color gui.my_color
-                            xalign 0.5
-                            yalign 0.5
+                use character_stat(stat_label="ELO", stat_value=stats["elo"])
 
-                hbox:
-                    spacing 8
-                    text "DEPTH":
-                        font "fonts/BoldFont.ttf" 
-                        color gui.my_color 
-                        yalign 0.5
-                    frame:
-                        background "small_text_container"
-                        text "{value}".format(value=stats["depth"]):
-                            font "fonts/BoldFont.ttf" 
-                            color gui.my_color 
-                            yalign 0.5
+                use character_stat(stat_label="DEPTH", stat_value=stats["depth"])
 
-                hbox:
-                    spacing 8
-                    text "MOVETIME":
-                        font "fonts/BoldFont.ttf" 
-                        color gui.my_color 
-                        yalign 0.5
+                use character_stat(stat_label="MOVETIME", stat_value=stats["movetime"])
 
-                    frame:
-                        background "small_text_container"
-                        text "{value}".format(value=stats["movetime"]):
-                            font "fonts/BoldFont.ttf" 
-                            color gui.my_color 
-                            yalign 0.5
-                    
                 hbox:
                     textbutton "Challenge":
                         action [Hide("character_details"), Jump("freeplay_chess_game")]
@@ -146,53 +114,63 @@ screen character_screen():
         $ characters = [
             {
                 "name": "Clara",
-                "unlocked": True,
-                "square": "clara_square",
+                "img": {
+                    "square": "clara_square",
+                    "full": "clara_full"
+                },
                 "stats": {
                     "elo": "1143",
                     "depth": "1",
                     "movetime": "800",
-                }
+                },
+                "unlocked": True,
             },
             {
                 "name": "Ava",
-                "unlocked": True,
-                "square": "ava_square",
+                "img": {
+                    "square": "ava_square",
+                    "full": "ava_full"
+                },
                 "stats": {
                     "elo": "1743",
                     "depth": "1",
                     "movetime": "4000",
-                }
+                },
+                "unlocked": True,
             },
             {
                 "name": "Elara",
-                "unlocked": True,
-                "square": "elara_square",
+                "img": {
+                    "square": "elara_square",
+                    "full": "elara_full"
+                },
                 "stats": {
                     "elo": "1573",
                     "depth": "1",
                     "movetime": "3000",
-                }
+                },
+                "unlocked": True,
             },
             {
                 "name": "Ria",
-                "unlocked": True,
-                "square": "ria_square",
+                "img": {
+                    "square": "ria_square",
+                    "full": "ria_full"
+                },
                 "stats": {
                     "elo": "1623",
                     "depth": "1",
                     "movetime": "1500",
-                }
+                },
+                "unlocked": True,
             },
             {
                 "name": "???",
                 "unlocked": False,
-                "square": None
             },
             {
                 "name": "???",
                 "unlocked": False,
-                "square": None
             },
         ]
 
@@ -202,7 +180,9 @@ screen character_screen():
             fixed:
                 fit_first True
                 if is_unlocked:
-                    $ logo_pathname = "squares/" + c["square"] if not None else "character_unlocked"
+                    $ img = c["img"]
+
+                    $ logo_pathname = "squares/" + img["square"] if not None else "character_unlocked"
                     imagebutton:
                         auto logo_pathname + "_%s.png"
                         action [
@@ -211,9 +191,11 @@ screen character_screen():
                             Show(
                                 "character_details",
                                 name=name,
-                                char_image=c["square"],
+                                char_image=img["square"],
+                                img=img,
                                 stats=c["stats"]
-                            )
+                            ),
+                            # Show("character_details", c),
                         ]
                         at transform:
                             zoom 0.5
