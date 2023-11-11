@@ -34,7 +34,7 @@ define c = Character("Clara", who_style="clara_char_name", ctc="ctc_blink", ctc_
 define uf = Character("Unknown Figure", ctc="ctc_blink", ctc_position="fixed")
 define dr = Character("Doctor", who_style="dr_char_name", ctc="ctc_blink", ctc_position="fixed")
 
-screen splash:
+screen splash():
     add Solid("#fff")
     vbox:
         align (0.5, 0.4)
