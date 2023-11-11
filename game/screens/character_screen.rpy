@@ -13,30 +13,33 @@ define DEFAULT_STATS = {
 }
 
 style details_text:
-    offset (8, -33)
+    # offset (8, -33)
     font "fonts/BoldFont.ttf"
     outlines [(absolute(2), "#fff", absolute(0), absolute(0))]
     color "#ebaad4"
 
-# screen character_details(name="???", char_image="cg_unlocked", avatar="cg_unlocked", stats=DEFAULT_STATS, backstory="???"):
-#     $ elo = stats["elo"]
-#     $ depth = stats["depth"]
-#     $ movetime = stats["movetime"]
-
 screen character_stat(stat_label="", stat_value=""):
-    hbox:
-        spacing 8
-        text stat_label:
-            font "fonts/BoldFont.ttf" 
-            color gui.my_color 
-            yalign 0.5
+    vbox:
+        style_prefix "character_stat"
+        text "[stat_label]" font "fonts/BoldFont.ttf" color gui.my_color
         frame:
             background "small_text_container"
-            text "{value}".format(value=stat_value):
-                font "fonts/BoldFont.ttf" 
-                color gui.my_color
-                xalign 0.5
-                yalign 0.5
+            text "[stat_value]" style "details_text"
+
+screen friendship_level(level=0):
+    vbox:
+        spacing 10
+        text "Friendship Level" font "fonts/BoldFont.ttf" color gui.my_color
+        hbox:
+            for i in range(0, 5):
+                if level > i:
+                    add "pink_heart":
+                        size (40, 40)
+                        yoffset -12
+                else:
+                    add "blue_heart":
+                        size (40, 40)
+                        yoffset -12
 
 
 screen character_details(name="???", img={}, stats=DEFAULT_STATS, backstory="???"):
@@ -47,39 +50,23 @@ screen character_details(name="???", img={}, stats=DEFAULT_STATS, backstory="???
     frame:
         background "character_details_background"
         xalign 0.5
-        # yalign 0.5
-        # xoffset 585
         xoffset 600
         yoffset 145
-        # xsize 543
-        # ysize 777
-        # ypadding 20
 
         vbox:
-            offset (20, 20)
+            offset (20, 30)
             vbox:
                 offset (5, 20)
                 xalign 1.0
-                text "Character Name" font "fonts/BoldFont.ttf" color gui.my_color
-                add "small_text_container"
-                text "[name]" style "details_text"
-                text "Friendship Level" yoffset -10 font "fonts/BoldFont.ttf" color gui.my_color
-                hbox:
-                    for i in range(0, 5):
-                        add "blue_heart":
-                            size (40, 40)
-                            yoffset -12
-                text "ELO" font "fonts/BoldFont.ttf" color gui.my_color
-                add "small_text_container"
-                text "[elo]" style "details_text"
-
-                text "Depth" font "fonts/BoldFont.ttf" color gui.my_color
-                add "small_text_container"
-                text "[depth]" style "details_text"
-
-                text "Movetime" font "fonts/BoldFont.ttf" color gui.my_color
-                add "small_text_container"
-                text "[movetime]" style "details_text"
+                spacing 20
+                use character_stat("Character Name", name)
+                use friendship_level(2)
+                vbox:
+                    yoffset -20
+                    spacing 25
+                    use character_stat("ELO", elo)
+                    use character_stat("Depth", depth)
+                    use character_stat("Movetime", movetime)
                 
             vbox:
                 yoffset 20
@@ -87,7 +74,7 @@ screen character_details(name="???", img={}, stats=DEFAULT_STATS, backstory="???
                 vbox:
                     text "Backstory" font "fonts/BoldFont.ttf" color gui.my_color
                     add "large_text_container"
-                    text "[backstory]" style "details_text" yoffset -80 font "fonts/Roboto-Bold.ttf"
+                    text "[backstory]" style "details_text" xoffset 10 yoffset -80 font "fonts/Roboto-Bold.ttf"
                 vbox:
                     yoffset -120
                     xalign 1.0
@@ -95,12 +82,6 @@ screen character_details(name="???", img={}, stats=DEFAULT_STATS, backstory="???
                         auto "gui/button/red_btn_%s.png"
                         action [Hide("character_details"), Jump("freeplay_chess_game")]
                     text "Challenge" font "fonts/BoldFont.ttf" xalign 0.5 yoffset -90
-
-                # use character_stat(stat_label="ELO", stat_value=stats["elo"])
-
-                # use character_stat(stat_label="DEPTH", stat_value=stats["depth"])
-
-                # use character_stat(stat_label="MOVETIME", stat_value=stats["movetime"])
 
     vbox:
         align (0.8, 0.2)
