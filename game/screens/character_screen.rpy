@@ -47,6 +47,7 @@ screen character_details(name="???", img={}, stats=DEFAULT_STATS, backstory="???
     $ depth = stats["depth"]
     $ movetime = stats["movetime"]
     $ full_img = img["full"]
+    $ bg_char = img["bg"]
     frame:
         background "character_details_background"
         xalign 0.5
@@ -61,15 +62,12 @@ screen character_details(name="???", img={}, stats=DEFAULT_STATS, backstory="???
                 spacing 20
                 use character_stat("Character Name", name)
                 use friendship_level(2)
-                vbox:
-                    yoffset -20
-                    spacing 25
-                    use character_stat("ELO", elo)
-                    use character_stat("Depth", depth)
-                    use character_stat("Movetime", movetime)
+                use character_stat("ELO", elo)
+                use character_stat("Depth", depth)
+                use character_stat("Movetime", movetime)
                 
             vbox:
-                yoffset 20
+                yoffset 40
                 spacing 24
                 vbox:
                     text "Backstory" font "fonts/BoldFont.ttf" color gui.my_color
@@ -80,7 +78,7 @@ screen character_details(name="???", img={}, stats=DEFAULT_STATS, backstory="???
                     xalign 1.0
                     imagebutton:
                         auto "gui/button/red_btn_%s.png"
-                        action [Hide("character_details"), Jump("freeplay_chess_game")]
+                        action [Hide("character_details"), Show("location_picker",hero_name=name,hero_img=bg_char)]
                     text "Challenge" font "fonts/BoldFont.ttf" xalign 0.5 yoffset -90
 
     vbox:
@@ -121,7 +119,8 @@ screen character_screen():
                 "backstory": "A mysterious old flame reappears\nagain....for a game of chess?!",
                 "img": {
                     "square": "clara_square",
-                    "full": "clara_full"
+                    "full": "clara_full",
+                    "bg": "clara"
                 },
                 "stats": {
                     "elo": "1143",
@@ -135,11 +134,12 @@ screen character_screen():
                 "backstory": "The quiet thinker, whose world center\non patterns and calculated moves.",
                 "img": {
                     "square": "ava_square",
-                    "full": "ava_full"
+                    "full": "ava_full",
+                    "bg": "ava"
                 },
                 "stats": {
                     "elo": "1743",
-                    "depth": "1",
+                    "depth": "4",
                     "movetime": "4000",
                 },
                 "unlocked": True
@@ -149,11 +149,12 @@ screen character_screen():
                 "backstory": "Her chess prowess honed in grand\nlibraries, a beacon of wisdom.",
                 "img": {
                     "square": "elara_square",
-                    "full": "elara_full"
+                    "full": "elara_full",
+                    "bg": "elara"
                 },
                 "stats": {
                     "elo": "1573",
-                    "depth": "1",
+                    "depth": "2",
                     "movetime": "3000",
                 },
                 "unlocked": True
@@ -163,11 +164,12 @@ screen character_screen():
                 "backstory": "For Ria, chess is not just a game;\nit's a way of life.",
                 "img": {
                     "square": "ria_square",
-                    "full": "ria_full"
+                    "full": "ria_full",
+                    "bg": "ria"
                 },
                 "stats": {
                     "elo": "1623",
-                    "depth": "1",
+                    "depth": "3",
                     "movetime": "1500",
                 },
                 "unlocked": True
@@ -191,6 +193,7 @@ screen character_screen():
                     # $ logo_pathname = "squares/" + c["square"] if not None else "character_unlocked"
                     $ logo_pathname = "squares/" + c["img"]["square"] + "_idle.png"
                     $ img = c["img"]
+                    $ stats = c["stats"]
                     imagebutton:
                         auto "character_unlocked_%s.png" 
                         selected_idle "character_unlocked_hover"
@@ -201,7 +204,7 @@ screen character_screen():
                             Show(
                                 "character_details",
                                 name=name,
-                                stats=c["stats"],
+                                stats=stats,
                                 img=img,
                                 backstory=c["backstory"]
                             ),
