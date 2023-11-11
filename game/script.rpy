@@ -288,11 +288,40 @@ label freeplay_chess_game(background="bg_freeplay_1", hero_name=None, hero_img=N
     # board notation
     $ fen = STARTING_FEN
 
-    call screen intro_chess(fen, player_color=None, depth=0, background=background, hero_img=hero_img) 
+    if config.developer:
+        call screen intro_chess(fen, player_color=None, depth=0, background=background, hero_img=hero_img)
+    
+    else:
+        $ STOCKFISH_ENGINE = chess.engine.SimpleEngine.popen_uci(STOCKFISH, startupinfo=STARTUPINFO)
+        # window hide
+        $ quick_menu = False
 
+        # avoid rolling back and losing chess game state
+        $ renpy.block_rollback()
+
+        # # disable Esc key menu to prevent the player from saving the game
+        $ _game_menu_screen = None
+
+        # call screen chess(fen, player_color=chess.WHITE, depth=-1)
+        call screen intro_chess(fen, player_color=chess.WHITE, depth=0,background=background, hero_img=hero_img)
+
+        # re-enable the Esc key menu
+        $ _game_menu_screen = 'save'
+
+        # avoid rolling back and entering the chess game again
+        $ renpy.block_rollback()
+
+        # restore rollback from this point on
+        $ renpy.checkpoint()
+
+        # kill stockfish engine
+        $ quit_stockfish()
+
+        # window show
+        $ quick_menu = True
+    
     # unpause music
     $ renpy.music.set_pause(False, channel='music') 
-
     call screen main_menu
 
 screen intro_chess(fen, player_color, depth, background="bg_hospital_3", hero_img=None):
