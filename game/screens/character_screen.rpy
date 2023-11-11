@@ -202,9 +202,11 @@ screen character_screen():
             fixed:
                 fit_first True
                 if is_unlocked:
-                    $ logo_pathname = "squares/" + c["square"] if not None else "character_unlocked"
+                    # $ logo_pathname = "squares/" + c["square"] if not None else "character_unlocked"
+                    $ logo_pathname = "squares/" + c["square"] + "_idle.png"
                     imagebutton:
-                        auto logo_pathname + "_%s.png"
+                        auto "character_unlocked_%s.png" 
+                        selected_idle "character_unlocked_hover"
                         action [
                             SetVariable("char_selected_loc", idx),
                             SelectedIf(char_selected_loc == idx),
@@ -215,8 +217,8 @@ screen character_screen():
                                 stats=c["stats"]
                             )
                         ]
-                        at transform:
-                            zoom 0.5
+                    add logo_pathname: 
+                        align (0.5, 0.5)
 
                     text "[name]" align (0.5, 1.0) yoffset 24 font "fonts/BoldFont.ttf" color gui.my_color
                 else:
