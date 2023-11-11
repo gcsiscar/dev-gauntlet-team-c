@@ -18,12 +18,11 @@ style details_text:
     outlines [(absolute(2), "#fff", absolute(0), absolute(0))]
     color "#ebaad4"
 
-<<<<<<< HEAD
-screen character_details(name="???", char_image="cg_unlocked", avatar="cg_unlocked", stats=DEFAULT_STATS, backstory="???"):
-    $ elo = stats["elo"]
-    $ depth = stats["depth"]
-    $ movetime = stats["movetime"]
-=======
+# screen character_details(name="???", char_image="cg_unlocked", avatar="cg_unlocked", stats=DEFAULT_STATS, backstory="???"):
+#     $ elo = stats["elo"]
+#     $ depth = stats["depth"]
+#     $ movetime = stats["movetime"]
+
 screen character_stat(stat_label="", stat_value=""):
     hbox:
         spacing 8
@@ -40,11 +39,11 @@ screen character_stat(stat_label="", stat_value=""):
                 yalign 0.5
 
 
-# screen character_details(character={}):
-    # $ name, _img, stats, _unlocked = character.values()
->>>>>>> staging
-
-screen character_details(name="???", char_image="cg_unlocked", img={}, stats=DEFAULT_STATS):
+screen character_details(name="???", img={}, stats=DEFAULT_STATS, backstory="???"):
+    $ elo = stats["elo"]
+    $ depth = stats["depth"]
+    $ movetime = stats["movetime"]
+    $ full_img = img["full"]
     frame:
         background "character_details_background"
         xalign 0.5
@@ -85,45 +84,27 @@ screen character_details(name="???", char_image="cg_unlocked", img={}, stats=DEF
             vbox:
                 yoffset 20
                 spacing 24
-<<<<<<< HEAD
-=======
-
-                # TODO: Display character logo here
-
->>>>>>> staging
                 vbox:
                     text "Backstory" font "fonts/BoldFont.ttf" color gui.my_color
                     add "large_text_container"
                     text "[backstory]" style "details_text" yoffset -80 font "fonts/Roboto-Bold.ttf"
                 vbox:
-<<<<<<< HEAD
                     yoffset -120
                     xalign 1.0
                     imagebutton:
                         auto "gui/button/red_btn_%s.png"
-=======
-                    text "Friendship Level" yoffset -16 font "fonts/BoldFont.ttf" color gui.my_color
-                    hbox:
-                        for i in range(0, 5):
-                            add "blue_heart":
-                                size (40, 40)
-                                yoffset -12
-
-                use character_stat(stat_label="ELO", stat_value=stats["elo"])
-
-                use character_stat(stat_label="DEPTH", stat_value=stats["depth"])
-
-                use character_stat(stat_label="MOVETIME", stat_value=stats["movetime"])
-
-                hbox:
-                    textbutton "Challenge":
->>>>>>> staging
                         action [Hide("character_details"), Jump("freeplay_chess_game")]
-                    text "Challenge" font "fonts/BoldFont.ttf" xalign 0.5 yoffset -90 
+                    text "Challenge" font "fonts/BoldFont.ttf" xalign 0.5 yoffset -90
+
+                # use character_stat(stat_label="ELO", stat_value=stats["elo"])
+
+                # use character_stat(stat_label="DEPTH", stat_value=stats["depth"])
+
+                # use character_stat(stat_label="MOVETIME", stat_value=stats["movetime"])
 
     vbox:
         align (0.8, 0.2)
-        add avatar:
+        add full_img:
             xalign 0.5
             yoffset 50
 
@@ -156,95 +137,59 @@ screen character_screen():
         $ characters = [
             {
                 "name": "Clara",
-<<<<<<< HEAD
-                "unlocked": True,
-                "square": "clara_square",
-                "avatar": "clara_avatar",
-=======
+                "backstory": "A mysterious old flame reappears\nagain....for a game of chess?!",
                 "img": {
                     "square": "clara_square",
                     "full": "clara_full"
                 },
->>>>>>> staging
                 "stats": {
                     "elo": "1143",
                     "depth": "1",
                     "movetime": "800",
                 },
-<<<<<<< HEAD
-                "backstory": "A mysterious old flame reappears\nagain....for a game of chess?!"
+                "unlocked": True
             },
             {
                 "name": "Ava",
-                "unlocked": True,
-                "square": "ava_square",
-                "avatar": "ava_avatar",
-=======
-                "unlocked": True,
-            },
-            {
-                "name": "Ava",
+                "backstory": "The quiet thinker, whose world center\non patterns and calculated moves.",
                 "img": {
                     "square": "ava_square",
                     "full": "ava_full"
                 },
->>>>>>> staging
                 "stats": {
                     "elo": "1743",
                     "depth": "1",
                     "movetime": "4000",
                 },
-<<<<<<< HEAD
-                "backstory": "The quiet thinker, whose world center\non patterns and calculated moves."
+                "unlocked": True
             },
             {
                 "name": "Elara",
-                "unlocked": True,
-                "square": "elara_square",
-                "avatar": "elara_avatar",
-=======
-                "unlocked": True,
-            },
-            {
-                "name": "Elara",
+                "backstory": "Her chess prowess honed in grand\nlibraries, a beacon of wisdom.",
                 "img": {
                     "square": "elara_square",
                     "full": "elara_full"
                 },
->>>>>>> staging
                 "stats": {
                     "elo": "1573",
                     "depth": "1",
                     "movetime": "3000",
                 },
-<<<<<<< HEAD
-                "backstory": "Her chess prowess honed in grand\nlibraries, a beacon of wisdom."
+                "unlocked": True
             },
             {
                 "name": "Ria",
-                "unlocked": True,
-                "square": "ria_square",
-                "avatar": "ria_avatar",
-=======
-                "unlocked": True,
-            },
-            {
-                "name": "Ria",
+                "backstory": "For Ria, chess is not just a game;\nit's a way of life.",
                 "img": {
                     "square": "ria_square",
                     "full": "ria_full"
                 },
->>>>>>> staging
                 "stats": {
                     "elo": "1623",
                     "depth": "1",
                     "movetime": "1500",
                 },
-<<<<<<< HEAD
-                "backstory": "For Ria, chess is not just a game;\nit's a way of life."
-=======
-                "unlocked": True,
->>>>>>> staging
+                "unlocked": True
             },
             {
                 "name": "???",
@@ -262,14 +207,9 @@ screen character_screen():
             fixed:
                 fit_first True
                 if is_unlocked:
-<<<<<<< HEAD
                     # $ logo_pathname = "squares/" + c["square"] if not None else "character_unlocked"
-                    $ logo_pathname = "squares/" + c["square"] + "_idle.png"
-=======
+                    $ logo_pathname = "squares/" + c["img"]["square"] + "_idle.png"
                     $ img = c["img"]
-
-                    $ logo_pathname = "squares/" + img["square"] if not None else "character_unlocked"
->>>>>>> staging
                     imagebutton:
                         auto "character_unlocked_%s.png" 
                         selected_idle "character_unlocked_hover"
@@ -280,18 +220,10 @@ screen character_screen():
                             Show(
                                 "character_details",
                                 name=name,
-<<<<<<< HEAD
                                 stats=c["stats"],
-                                avatar=c["avatar"],
-                                backstory=c["backstory"]
-                            )
-=======
-                                char_image=img["square"],
                                 img=img,
-                                stats=c["stats"]
+                                backstory=c["backstory"]
                             ),
-                            # Show("character_details", c),
->>>>>>> staging
                         ]
                     add logo_pathname: 
                         align (0.5, 0.5)
